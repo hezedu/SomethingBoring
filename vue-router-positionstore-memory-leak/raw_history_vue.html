@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>vue-router positionStore memory leak</title>
+    <style>
+      html, body{
+        margin: 0;
+        padding: 0;
+      }
+      button{
+        font-size: 20px;
+        padding: 10px;
+      }
+      .fixed{
+        position: fixed;
+        width: 200px;
+        height: 200px;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        background-color: #eee;
+      }
+      .ruler{
+        height: 100vh;
+        border-right: 30px solid #000;
+        border-top: 1px solid #333;
+        font-size: 30px;
+        text-align: right;
+        box-sizing: border-box;
+      }
+      .ruler.blue{
+        border-color: blue;
+      }
+      .ruler.red{
+        border-color: red;
+      }
+      .ruler.yellow{
+        border-color: yellow;
+      }
+    </style>
+  </head>
+  <body>
+
+  <div id="app">Loading...</div>
+  
+  
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.js"></script> -->
+  <script src="./vue-router@3.4.9_m_1734_rhv.js"></script>
+    <script>
+
+      
+
+    function genPage(isBack){
+      let tpl = `
+        <div class="ruler">
+      100vh
+    </div>
+    <div class="ruler blue">
+      200vh
+    </div>
+    <div class="ruler red">
+      300vh
+    </div>`
+    if(!isBack){
+      tpl = tpl += `<div class="ruler yellow">
+      400vh
+    </div>`
+    }
+      return {
+        template: `<div>
+        ${tpl}
+    
+        
+        <div class="fixed">
+          <button @click="back">Back</button>
+          <button @click="push">push</button>
+          <button @click="replace">repalce</button>
+          <button @click="forward">forward</button>
+        </div>
+        </div>`,
+        data() {
+          return {
+            isBack,
+            map: window.vueRouterPositionStore
+          }
+        },
+        methods: {
+          back(){
+            this.$router.back();
+          },
+          forward(){
+            this.$router.forward();
+          },
+          replace(){
+            this.$router.replace('/?' + Date.now());
+          },
+          push(){
+            this.$router.push('/?' + Date.now());
+          }
+        }
+      }
+    }
+
+
+    const Root = {
+      template: '<router-view />'
+    }
+
+    const router = new window.VueRouter({
+      scrollBehavior (to, from, savedPosition) {
+    // return 期望滚动到哪个的位置
+    console.log('savedPosition', savedPosition)
+    return savedPosition;
+  },
+      routes: [
+        { path: '/', component: genPage(false) },
+        { path: '/b', component: genPage(true) },
+      ]
+    });
+    
+    const app = new window.Vue({
+      router: router,
+      render: h => h(Root)
+    });
+
+    router.onReady(() => {
+      app.$mount('#app');
+    })
+    window.addEventListener('popstate', function(e){
+      console.log('popstate', e)
+    })
+    </script>
+</body>
+</html>

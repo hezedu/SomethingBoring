@@ -1,0 +1,10 @@
+.dw_0{width:488px;float:left;text-align:center;font-family:"微软雅黑";border-left:2px solid midnightblue;}
+.dw_0.on{border-right:2px solid midnightblue;border-left:0;}
+.title{font-size:30px;line-height:50px;height:50px;color:midnightblue;margin-bottom:20px;}
+.title2{font-size:20px;line-height:30px;text-align:left;background:midnightblue;color:#fff;margin-top:10px;clear:both}
+.dw_0 a{display:block;width:50%;float:left;line-height:30px;color:royalblue;text-decoration:none;text-align:left;text-indent:10px;}
+.dw_0 a:hover{text-decoration:underline}
+.dw_zupu_logo{line-height:1.1;display:block;float:left;height:50px;background:midnightblue;color:#e6e68f;font-size:14px;font-family:"宋体";width:40px;
+border-right:darkgoldenrod 3px solid;border-bottom:goldenrod 3px solid;text-decoration:none;position:relative}
+.dw_zupu_logo:hover{border-right:goldenrod 3px solid;border-bottom:darkgoldenrod 3px solid;}
+.dw_zupu_doload{float:right;height:40px;width:80px;background:mediumblue;line-height:40px;color:#fff;text-align:center;display:block}

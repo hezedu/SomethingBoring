@@ -1,0 +1,22 @@
+/*尺子*/
+#dw_y_chiZhi ,#dw_x_chiZhi{position:absolute;}
+#dw_x_chiZhi{height:15px;top:0;left:15px;border-left:1px solid #000;border-bottom:1px solid #000}
+#dw_y_chiZhi{width:15px;top:15;left:0px;border-top:1px solid #000;border-right:1px solid #000;}
+.dw_chiZhi_100 ,.dw_chiZhi_100_y{position:relative;}
+.dw_chiZhi_100, .dw_chiZhi_50, .dw_chiZhi_10, .dw_chiZhi_2{width:1px;border-right:1px solid #000;float:left;}
+.dw_chiZhi_100{height:100%;text-align:right;}
+.dw_chiZhi_50{height:50%;}
+.dw_chiZhi_10{height:30%;}
+.dw_chiZhi_2{height:10%;}
+.dw_chiZhi_100_y, .dw_chiZhi_50_y, .dw_chiZhi_10_y, .dw_chiZhi_2_y{height:1px;border-bottom:1px solid #000;}
+.dw_chiZhi_100_y{text-align:right;}
+.dw_chiZhi_50_y{width:50%}
+.dw_chiZhi_10_y{width:30%}
+.dw_chiZhi_2_y{width:10%}
+.dw_chiZhi_100 span ,.dw_chiZhi_100_y span{position:absolute;right:0;bottom:0}
+.dw_chiZhi_100 small ,.dw_chiZhi_100_y small{color:red;}
+.dw_chiZhi_100_y span {width:12px}
+/*参考线*/
+#dw_chanKaoxian{position:relative;top:0;left:0;z-index:2000;} 
+
+#dw_chanKaoxian div{height:0px;border-bottom:1px solid #4AFFFF;width:100%;position:absolute;z-index:1000}

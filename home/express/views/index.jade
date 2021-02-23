@@ -1,0 +1,20 @@
+extends layout
+block content
+  -var len = data.length
+  arr#test(k='data' style='display:block') 
+    -for(var i =0;i<len;i++)
+      -var data_i = data[i]
+      obj(style='border-bottom:1px solid #000;padding:20px;display:block')
+        v test2
+        h3 夫妻#{i+1}:
+        -for(var o in data_i)
+          div 
+            obj(k=o) #{o==='man' ? '丈夫' : '太太'}:
+          -var data_o = data_i[o]
+            b
+            span(k='name') 名字: 
+              v #{data_o.name} 
+            span(k='age') 年龄: 
+              v #{data_o.age}
+block js
+  script(src='/js/test.js')

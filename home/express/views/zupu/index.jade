@@ -1,0 +1,48 @@
+extends ../layout
+
+block title 
+  |godmod
+append css
+  link(rel='stylesheet' href='/css/zupu.css')
+block content
+  div(style='width:980px;margin:0 auto;height:100%;')
+    div(style='height:53px;')
+      a.dw_zupu_logo(href='/zupu')
+        span(style='position:absolute;top:6px;left:6px ')
+          | 族
+          br
+          | 谱
+      span(style='line-height:50px;color:#999')  js强力dump
+      a(style='float:right', href='https://github.com/hezedu/zupu.js') github
+      a.dw_zupu_doload(href='') 下载
+    .dw_0.on
+      .title window
+      script.
+        if(navigator.userAgent.indexOf("MSIE")!==-1){document.write(\\'<h2>经测试在IE8下遍历 window document 等全局对象无法通过.其它一般对象可以用.</h2>\'+decodeURI(\"%3C\")+\'!--\');}
+      a(href='/zupu/window/window') window
+      a(href='/zupu/window/document') document
+      .title2 其它
+      a(href='/zupu/window/jQuery') jQuery2.1.1
+      // //
+      a(href='/zupu/window/zuPu') zuPu
+      a(href='/zupu/window/search', style='width:100%;font-size:20px;text-align:center;margin-top:100px') 搜索search
+      div(style='clear:both')
+    .dw_0
+      .title nodejs
+      a(href='/zupu/nodejs/global') global
+      a(href='/zupu/nodejs/module') module
+      a(href='/zupu/nodejs/process') process
+      a(href='/zupu/nodejs/res')
+        span(style='color:#000') http.createServer(
+        | "res"
+      a(href='/zupu/nodejs/req')
+        span(style='color:#000') http.createServer(
+        | "req"
+      a(href='/zupu/nodejs/require') require
+      .title2 自定义module
+      a(href='/zupu/nodejs/sqlite3') sqlite3
+      a(href='/zupu/nodejs/mongodb') mongodb
+      a(href='/zupu/nodejs/socket.io') socket.io
+      .title2 自带module
+      | ' + dump + '
+  div(style='clear:both')

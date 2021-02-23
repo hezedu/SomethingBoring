@@ -1,0 +1,32 @@
+.block{
+  margin:5px;padding: 5px;border:1px solid #888;width:200px;float: left;
+}
+.test , .test_after{
+  width:100%;height: 100px;background-color: blue;color: #fff;
+}
+.test_after::after{
+  width: 100px;height: 50%;background-color: red;display: block;padding:10px;content:url(/I/ripie6.jpg);overflow: hidden;background-size: 100% 100%
+}
+.test_first-letter::first-letter{
+  font-size: 30px;color: red;font-weight: bold;
+}
+.test_first-of-type>b:first-of-type{
+  font-size: 30px;color: red;font-weight: bold;background-color: yellow
+}
+
+.test_first-line::first-line{
+  font-size: 30px;color: red;font-weight: bold;background-color: yellow
+}
+.test_placeholder ::placeholder{
+  font-size: 30px;color: red;font-weight: bold;background-color: yellow
+}
+::-webkit-input-placeholder{
+  color: red;font-weight: bold;background-color: yellow
+}
+
+.test_selection::selection{
+  font-size: 30px;color: red;font-weight: bold;background-color: yellow
+}
+.test_active:active{
+  font-size: 30px;color: red;font-weight: bold;background-color: yellow
+}

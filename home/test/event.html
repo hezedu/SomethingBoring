@@ -1,0 +1,38 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	 <style>
+
+	 </style>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.10.0.min.js"></script>
+<button onclick="eventTest()">原生event</button>
+<button onclick="eventTest2()">jquery trigger</button>
+<script>
+window.addEventListener('dadudu', shakeEventDidOccur, false);
+
+function shakeEventDidOccur() { //回调函数
+    alert('dadududadudu!'); // do it;
+}
+var event_test;
+
+if (typeof document.CustomEvent === 'function') {
+    event_test = new document.CustomEvent('dadudu', { //自定义事件名称
+        bubbles: true,
+        //是否冒泡
+        cancelable: true //是否可以停止捕获
+    });
+} else if (typeof document.createEvent === 'function') {
+    event_test = document.createEvent('Event');
+    event_test.initEvent('dadudu', true, true);
+    console.log(22222222222);
+}
+
+function eventTest() {
+    window.dispatchEvent(event_test);
+}
+
+$(window).on('dadudu2',function(){
+  alert('dadudu2');
+});
+function eventTest2() {
+    $(window).trigger('dadudu2')
+}
+</script>

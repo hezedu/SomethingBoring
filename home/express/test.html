@@ -1,0 +1,83 @@
+<html>
+<head>
+<style>
+#demo {
+  position: absolute;
+  top: 0px; left: 0px;
+  right: 0px; bottom: 0px;
+}
+#code {
+  border: 1px solid #000;
+  background-color: rgba(255,255,255,0.95);
+  padding: 0.5em;
+  margin: 1em;
+}
+svg {
+  display: none;
+}
+</style>
+</head>
+<body style="color:red;background:#666">
+
+<object data="icon.svg" width="300" height="100" 
+type="image/svg+xml"
+codebase="http://www.adobe.com/svg/viewer/install/" />
+
+
+
+<div  id ="demo" style=""></div>
+<div  id ="code" style=""></div>
+<script src="http://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+/*$(window).on("hashchange",function(){
+  alert(location.hash);
+});*/
+
+//////////////////////////////////////////////
+function dw_url(parem){
+  if(!parem){
+     return;
+  }
+  if(typeof parem === 'string'){
+    if(parem[0]==='?' || parem[1]==='#'){
+      parem=parem.substr(1);
+    }
+    return dw_url.parser(parem);
+  }else{
+    return dw_url.load(parem);
+  }
+}
+
+dw_url.parser=function(lparem){
+  lparem = lparem.split('&');
+  var obj={};
+  for(var i=0,len=lparem.length;i<len;i=i+1){
+    var lis=lparem[i].split('=');
+    obj[lis[0]]=lis[1];
+  }
+  return obj;
+}
+
+dw_url.load=function(obj){
+  var arr=[];
+  for(var i in obj){
+    arr.push(i+'='+obj[i]);
+  }
+  return arr.join('&');
+}
+/*location.hash='#kkk=3&ttt=2'
+location.search='tttt=test'*/
+/*var test=dw_url(location.search);
+console.log(test);
+var test2=dw_url(test);
+console.log(test2);*/
+//////////////////////////////////////////////
+
+
+
+
+
+</script>
+
+</body>
+</html>

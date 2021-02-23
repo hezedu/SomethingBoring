@@ -1,0 +1,12 @@
+[ '/usr/local/softeware/node_wechat/views/index/index.jade:string',
+  '/usr/local/softeware/node_wechat/views/index/index.jade',
+  '/usr/local/softeware/node_wechat/views/index/banner.jade:string',
+  '/usr/local/softeware/node_wechat/views/index/banner.jade',
+  '/usr/local/softeware/node_wechat/views/list/ajax.jade:string',
+  '/usr/local/softeware/node_wechat/views/list/ajax.jade',
+  '/usr/local/softeware/node_wechat/views/personal/index.jade:string',
+  '/usr/local/softeware/node_wechat/views/personal/index.jade',
+  '/usr/local/softeware/node_wechat/views/personal/order/unpay.jade:string',
+  '/usr/local/softeware/node_wechat/views/personal/order/unpay.jade',
+  '/usr/local/softeware/node_wechat/views/list/detail.jade:string',
+  '/usr/local/softeware/node_wechat/views/list/detail.jade' ]

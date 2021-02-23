@@ -1,0 +1,29 @@
+extends ../layout
+
+block title 
+  |godmod
+append css
+  link(rel='stylesheet' href='/css/css3.css')
+block content
+  .block
+    h2 ::after
+    .test.test_after hello world!
+  .block
+    h2 ::first-letter
+    .test.test_first-letter "都hello world!
+  .block
+    h2 ::first-of-type
+    .test.test_first-of-type 
+      b 都hello world!
+  .block
+    h2 ::first-line
+    .test.test_first-line 都hello world!
+  .block
+    h2 ::test_placeholder
+    input.test.test_placeholder(placeholder="都hello world!")
+  .block
+    h2 ::selection
+    .test.test_selection 都hello world!
+  .block
+    h2 :active
+    .test.test_active 都hello world!

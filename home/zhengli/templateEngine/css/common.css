@@ -1,0 +1,17 @@
+*{ padding:0; margin:0;word-wrap:break-word;/*支持IE，chrome，FF*/}
+body,button, input, select, textarea,pre { font: 12px/1 Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif; }
+body{padding:16px 0 0 16px;}
+h1 { font-size: 18px; }
+h2 { font-size: 16px; }
+h3 { font-size: 14px; }
+h4, h5, h6 { font-size: 100%; }
+ul, ol { list-style: none; }
+address, cite, dfn, em, var, i { font-style: normal;} 
+button, input, select, textarea ,small { font-size: 100%; }
+a { text-decoration: none;cursor:pointer }
+a:hover { text-decoration: underline; }
+table {border-collapse: collapse;border-spacing: 0;}
+hr {border: none; height: 1px;}
+.Cmm ,.MM{margin:0 auto;}
+.Cmm{width:400px}
+.fl{float:left}

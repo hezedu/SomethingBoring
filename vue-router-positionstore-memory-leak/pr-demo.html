@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>New feature: Data Store</title>
+    <style>
+      html, body{
+        margin: 0;
+        padding: 0;
+      }
+      button{
+        font-size: 14px;
+        padding: 5px;
+      }
+  
+      
+      .stateKeyColor{
+        color: blue;
+      }
+      .active{
+        background-color: blue;
+        color: #fff;
+      }
+      .active::marker{
+        color: initial
+      }
+      .fixed{
+          position: fixed;
+          width: 50vw;
+          height: 100vh;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          background-color: #eee;
+          padding-top: 10px;
+          box-shadow: 3px 3px 3px  #666;
+        }
+        .ruler{
+          height: 100vh;
+          border-right: 30px solid #000;
+          border-top: 1px solid #333;
+          font-size: 30px;
+          text-align: right;
+          box-sizing: border-box;
+        }
+        .ruler.blue{
+          border-color: blue;
+        }
+        .ruler.red{
+          border-color: red;
+        }
+        .ruler.yellow{
+          border-color: yellow;
+        }
+  
+    </style>
+  </head>
+  <body>
+  <div id="app">Loading...</div>
+  
+  
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.js"></script> -->
+  <script src="./vue-router_pr-demo.js"></script>
+    <script>
+
+function genPage () {
+  const tpl = `
+  <div class="ruler">
+    100vh
+    </div>
+    <div class="ruler blue">
+    200vh
+    </div>
+    <div class="ruler red">
+    300vh
+    </div>
+    <div class="ruler yellow">
+    400vh
+    </div>`
+  return {
+    template: `<div>
+    ${tpl}
+    <div class="fixed">
+      <button @click="back">back</button>
+    
+      <button @click="forward">forward</button>
+      <hr />
+      <button @click="push()">push</button>
+      <button @click="push(true)">replace</button>
+      <hr />
+      <button @click="setData">setData</button>
+      <h3>Current history.state.key: <b class="stateKeyColor">{{currStateKey}}</b></h3>
+      <div class="wrap">
+        <div>
+          <h3>DataStore</h3>
+          
+          <ol>
+            <li v-for="(v, k) in map" :key="k" :class="{active: k == currStateKey}">
+              <b>{{k}}: </b> {{JSON.stringify(v)}}
+            
+            </li>
+            </ol>
+        </div>
+      </div>
+
+      </div>
+
+    </div>`,
+    data () {
+      return {
+        currStateKey: '',
+        map: {},
+        customMap: {}
+      }
+    },
+    watch: {
+
+      $route (newVal) {
+        this.setMap()
+      }
+    },
+    methods: {
+      setMap () {
+        const map = {}
+        Object.assign(map, this.$router._dataStore)
+        this.map = map
+        if (window.history.state) {
+          this.currStateKey = window.history.state.key
+        }
+      },
+
+      forward (num) {
+        this.$router.forward()
+      },
+
+      back () {
+        this.$router.back()
+      },
+
+      push (isReplace) {
+        const url = '/?t=' + Date.now()
+        if (isReplace) {
+          this.$router.replace(url)
+          return
+        }
+        this.$router.push(url)
+      },
+
+      setData () {
+        this.$router.setData('data', { time: Date.now() })
+        this.setMap()
+      }
+    },
+    created () {
+      this.setMap()
+    }
+  }
+}
+
+const Root = {
+  template: '<router-view />'
+}
+
+
+const router = new window.VueRouter({
+  scrollBehavior (to, from, savedPosition) {
+    return savedPosition
+  },
+  routes: [
+    { path: '/', component: genPage() }
+  ]
+})
+
+const app = new window.Vue({
+  router: router,
+  render: h => h(Root)
+})
+
+router.onReady(() => {
+  app.$mount('#app')
+})
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+#!/usr/bin/env node
+var debug = require('debug')('untitled');
+var app = require('../app');
+
+app.set('port', process.env.PORT || 8282);
+
+server = app.listen(app.get('port'),'127.0.0.1', function() { 
+  debug('Express server listening on port ' + server.address().port);
+  console.log('Express server listening on port' + server.address().port);
+
+});  
+
+require('hotstart')(server,{});
+
+app.use('/dw_test',function(req,res,next){
+  console.log(process)
+  res.end('dddddddd')
+})
+var stack = app._router.stack;
+
+app._router.stack.splice(0,0,app._router.stack.pop())
+
+
+
+
+//********* watch *********
+/*  function watchFile() {
+    if (watch) {
+      //console.log('watched ');
+      for (var i in hashObj) {
+        _fsWatchfile(i,hashObj[i]);
+      }
+    }
+  }
+  var http_opt = {
+
+  }
+  function _fsWatchfile(path,hash_) {
+    fs.watchFile(path, {
+      persistent: true,
+      interval: 500
+    }, function(curr, prev) {
+      _hash(path, function(err, data) {
+        if (err) {
+          console.log('hot start watch err :');
+          console.log(err);
+        }
+        if (data !== hash_) {
+          difObj[path] = data;
+          console.log(app)
+        }
+      })
+    });
+  }*/
+//********* watch end *********

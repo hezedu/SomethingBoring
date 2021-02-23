@@ -1,0 +1,742 @@
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style>
+html{font-size:12px;}
+*{margin: 0;padding: 0}
+body{font-family: '微软雅黑'}
+*.new , .new *{font-size:12px;color:#000;background:#fff;height:auto;width:auto;font-weight:normal}
+.test{font-size:38px;color:red;width:400px;height:400px;}
+#id1 .test2{color:yellow;font-size:55px;}
+#id2 .test2{color:blue;background:yellow;}
+#id1{width:980px;margin:0 auto}
+h1{text-align: center;height: 100px;line-height: 100px;font-size: 50px;}
+.smbhs_SJX{width:0px;height:0;position:absolute;}
+.smbhs_sanjiaoD{border-color:  transparent transparent #b3aaaa;border-style: dashed dashed solid ;border-width: 0 5px 9px;left:40%;}
+.smbhs_sanjiaoD1{border-color: transparent transparent #fff;   border-style: dashed dashed solid ;border-width: 0 4px 8px; top:1px;left:-4px;}
+hr{margin: 100px;}
+#f2 ,#f3{
+width: 10em;
+border-top-width: 100px;
+border-top-style: solid;
+border-top-color: transparent;
+border-right-width: 100px;
+border-right-style: solid;
+border-right-color: #000;
+margin:0 auto;
+width:300px;height:300px;
+}
+i{font-size: 18px;}
+#f3{height: 0;width: 0;}
+.tip{float: right;margin-right:10px;margin-top: 10px;font-size: 20px; }
+#last2.smbhs_sanjiaoD{border-width: 0 400px 400px;border-color:  transparent transparent #b3aaaa; left:10%;}
+#last2 .smbhs_sanjiaoD1{border-width: 0 300px 300px;top:100px;left:-300px;}
+    #container {
+      position: relative;
+      width: 400px;
+      height: 400px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    #test2{}
+</style>
+
+
+  <script type="text/javascript" src="./triangles_files/utils.js"></script>
+  <script type="text/javascript" src="./triangles_files/metrics.js"></script>
+<script type="text/javascript" src='http://cdn.staticfile.org/jquery/2.1.1/jquery.min.js'></script>
+<script type="text/javascript" src='dwlib.js'></script>
+
+
+ <script type="text/javascript">
+  /* <![CDATA[ */
+    var trianglesHtml = [];
+    var MAX_DEPTH = 6;
+    var transparentColor = "transparent";
+
+    function renderTriangles(node) {
+      node.innerHTML = trianglesHtml.join("");
+      trianglesHtml = [];
+    }
+
+    function drawRightTriangle(p1, p2, color, above) {
+      if (p1.y < p2.y) {
+        if (above) {
+          var result = "<div style=\"position:absolute;height:0px;left:" + Math.floor(p1.x) + "px;top:" + Math.ceil(p1.y) + "px;border-left-style:solid;border-top-style:solid;";
+          result += "border-left-color:" + self.transparentColor + ";border-top-color:" + color;
+          result += ";border-left-width:" + Math.ceil(p2.x - p1.x + 1) + "px;border-top-width:" + Math.ceil(p2.y - p1.y + 1) + "px;\"></div>";
+          trianglesHtml.push(result);
+        } else {
+          var result = "<div style=\"position:absolute;height:0px;left:" + Math.ceil(p1.x) + "px;top:" + Math.floor(p1.y) + "px;border-right-style:solid;border-bottom-style:solid;";
+          result += "border-right-color:" + self.transparentColor + ";border-bottom-color:" + color;
+          result += ";border-right-width:" + Math.ceil(p2.x - p1.x + 1) + "px;border-bottom-width:" + Math.ceil(p2.y - p1.y + 1) + "px;\"></div>";
+          trianglesHtml.push(result);
+        }
+      } else if (p1.y > p2.y) {
+        if (above) {
+          var result = "<div style=\"position:absolute;height:0px;left:" + Math.ceil(p1.x) + "px;top:" + Math.ceil(p2.y) + "px;border-right-style:solid;border-top-style:solid;";
+          result += "border-right-color:" + self.transparentColor + ";border-top-color:" + color;
+          result += ";border-right-width:" + Math.ceil(p2.x - p1.x + 1) + "px;border-top-width:" + Math.ceil(p1.y - p2.y + 1) + "px;\"></div>";
+          trianglesHtml.push(result);
+        } else {
+          var result = "<div style=\"position:absolute;height:0px;left:" + Math.floor(p1.x) + "px;top:" + Math.floor(p2.y) + "px;border-left-style:solid;border-bottom-style:solid;";
+          result += "border-left-color:" + self.transparentColor + ";border-bottom-color:" + color;
+          result += ";border-left-width:" + Math.ceil(p2.x - p1.x + 1) + "px;border-bottom-width:" + Math.ceil(p1.y - p2.y + 1) + "px;\"></div>";
+          trianglesHtml.push(result);
+        }
+      }
+    }
+
+    function drawFlatBottomTriangle(p1, p2, p3, color) {
+      if (p1.x <= p2.x) {
+        var depth = 0;
+        var dy = (p3.y - p1.y) / (p3.x - p1.x);
+        var dx = (p2.x - p1.x) / (p2.y - p1.y);
+
+        while (p2.x - p1.x > 1) {
+          var p4 = {x: p2.x, y: p1.y + (p2.x - p1.x) * dy};
+          var p5 = {y: p4.y, x: p1.x + (p4.y - p1.y) * dx};
+
+          drawRightTriangle(p4, p3, color, false);
+          drawRightTriangle(p5, p2, color, true);
+          
+          if (++depth > MAX_DEPTH) {
+            return;
+          }
+
+          p2 = p5;
+          p3 = p4;
+        }
+
+        drawRightTriangle(p1, p3, color, false);
+      } else if (p1.x >= p3.x) {
+        var depth = 0;
+        var dy = (p2.y - p1.y) / (p2.x - p1.x);
+        var dx = (p3.x - p1.x) / (p3.y - p1.y);
+
+        while (p1.x - p3.x > 1) {
+          var p4 = {x: p3.x, y: p1.y + (p3.x - p1.x) * dy};
+          var p5 = {y: p4.y, x: p1.x + (p4.y - p1.y) * dx};
+
+          drawRightTriangle(p2, p4, color, false);
+          drawRightTriangle(p3, p5, color, true);
+
+          if (++depth > MAX_DEPTH) {
+            return;
+          }
+
+          p2 = p4;
+          p3 = p5;
+        }
+
+        drawRightTriangle(p2, p1, color, false);
+      } else {
+        drawRightTriangle(p2, p1, color, false);
+        drawRightTriangle(p1, p3, color, false);
+      }
+    }
+
+    function drawFlatTopTriangle(p1, p2, p3, color) {
+      if (p1.x <= p2.x) {
+        var depth = 0;
+        var dy = (p3.y - p1.y) / (p3.x - p1.x);
+        var dx = (p2.x - p1.x) / (p2.y - p1.y);
+
+        while (p2.x - p1.x > 1) {
+          var p4 = {x: p2.x, y: p1.y + (p2.x - p1.x) * dy};
+          var p5 = {y: p4.y, x: p1.x + (p4.y - p1.y) * dx};
+
+          drawRightTriangle(p4, p3, color, true);
+          drawRightTriangle(p5, p2, color, false);
+
+          if (++depth > MAX_DEPTH) {
+            return;
+          }
+
+          p2 = p5;
+          p3 = p4;
+        }
+
+        drawRightTriangle(p1, p3, color, true);
+      } else if (p1.x >= p3.x) {
+        var depth = 0;
+        var dy = (p2.y - p1.y) / (p2.x - p1.x);
+        var dx = (p3.x - p1.x) / (p3.y - p1.y);
+
+        while (p1.x - p3.x > 1) {
+          var p4 = {x: p3.x, y: p1.y + (p3.x - p1.x) * dy};
+          var p5 = {y: p4.y, x: p1.x + (p4.y - p1.y) * dx};
+
+          drawRightTriangle(p2, p4, color, true);
+          drawRightTriangle(p3, p5, color, false);
+
+          if (++depth > MAX_DEPTH) {
+            return;
+          }
+
+          p2 = p4;
+          p3 = p5;
+        }
+
+        drawRightTriangle(p2, p1, color, true);
+      } else {
+        drawRightTriangle(p2, p1, color, true);
+        drawRightTriangle(p1, p3, color, true);
+      }
+    }
+
+    function compareY(p1, p2) {
+      return p1.y - p2.y;
+    }
+
+    function drawTriangle(points, color) {
+      points.sort(compareY);
+      var p1 = points[0];
+      var p2 = points[1];
+      var p3 = points[2];
+
+      if (p2.y - p1.y < 0) {
+        if (p1.x > p2.x) {
+          drawFlatTopTriangle(p3, p2, p1, color);
+        } else {
+          drawFlatTopTriangle(p3, p1, p2, color);
+        }
+      } else if (p3.y - p2.y < 0) {
+        if (p2.x > p3.x) {
+          drawFlatBottomTriangle(p1, p3, p2, color);
+        } else {
+          drawFlatBottomTriangle(p1, p2, p3, color);
+        }
+      } else {
+        var p4 = {y: p2.y, x: p1.x + (p2.y - p1.y) * ((p3.x - p1.x) / (p3.y - p1.y))};
+
+        if (p2.x > p4.x) {
+          drawFlatBottomTriangle(p1, p4, p2, color);
+          drawFlatTopTriangle(p3, p4, p2, color);
+        } else {
+          drawFlatBottomTriangle(p1, p2, p4, color);
+          drawFlatTopTriangle(p3, p2, p4, color);
+        }
+      }
+    }
+
+    function drawRandomTriangle(xMin, xRange, yMin, yRange) {
+      var p1 = {x: xMin + Math.random() * xRange, y: yMin + Math.random() * yRange};
+      var p2 = {x: xMin + Math.random() * xRange, y: yMin + Math.random() * yRange};
+      var p3 = {x: xMin + Math.random() * xRange, y: yMin + Math.random() * yRange};
+      
+      var color = "rgb(" +
+                  Math.floor(Math.random() * 256) + "," +
+                  Math.floor(Math.random() * 256) + "," +
+                  Math.floor(Math.random() * 256) + ")";
+
+      drawTriangle([p1, p2, p3], color);
+    }
+
+    function initializeNormals(obj) {
+      for (var i = 0, poly; poly = obj.polys[i]; ++i) {
+        poly.norm = Vector.crossProduct(Vector.subtract(obj.points[poly.points[1]], obj.points[poly.points[0]]),
+                                        Vector.subtract(obj.points[poly.points[2]], obj.points[poly.points[0]])).normalize()
+      }
+    }
+
+    var view = {
+     pos: new Vector(),
+     dir: new Vector(0, 0, -1)
+    };
+    
+    var light = {
+      dir: Vector.rotate(Vector.rotate(new Vector(0, 0, -1), 0.2, "x"), 0.3, "y"),
+      intensity: 0.85,
+      ambient: 0.15
+    };
+    
+    var points = [];
+    var polys = [];
+
+    var star = {
+      pos: new Vector(0, 0, -500),
+      orientation: new Quat(),
+
+      points: [
+        new Vector(-30, 30, 30),
+        new Vector(30, 30, 30),
+        new Vector(30, -30, 30),
+        new Vector(-30, -30, 30),
+        new Vector(-30, 30, -30),
+        new Vector(30, 30, -30),
+        new Vector(30, -30, -30),
+        new Vector(-30, -30, -30),
+
+        new Vector(0, 200, 0),
+        new Vector(200, 0, 0),
+        new Vector(0, -200, 0),
+        new Vector(-200, 0, 0),
+        new Vector(0, 0, 200),
+        new Vector(0, 0, -200)
+      ],
+
+      polys: [
+        { points: [0, 12, 1], color: new Vector(255, 64, 0) },
+        { points: [1, 12, 2], color: new Vector(255, 64, 0) },
+        { points: [2, 12, 3], color: new Vector(255, 64, 0) },
+        { points: [3, 12, 0], color: new Vector(255, 64, 0) },
+
+        { points: [4, 13, 7], color: new Vector(255, 0, 0) },
+        { points: [7, 13, 6], color: new Vector(255, 0, 0) },
+        { points: [6, 13, 5], color: new Vector(255, 0, 0) },
+        { points: [5, 13, 4], color: new Vector(255, 0, 0) },
+
+        { points: [0, 8, 4], color: new Vector(0, 0, 255) },
+        { points: [4, 8, 5], color: new Vector(0, 0, 255) },
+        { points: [5, 8, 1], color: new Vector(0, 0, 255) },
+        { points: [1, 8, 0], color: new Vector(0, 0, 255) },
+
+        { points: [2, 10, 6], color: new Vector(0, 0, 255) },
+        { points: [6, 10, 7], color: new Vector(0, 0, 255) },
+        { points: [7, 10, 3], color: new Vector(0, 0, 255) },
+        { points: [3, 10, 2], color: new Vector(0, 0, 255) },
+
+        { points: [1, 9, 5], color: new Vector(0, 255, 0) },
+        { points: [5, 9, 6], color: new Vector(0, 255, 0) },
+        { points: [6, 9, 2], color: new Vector(0, 255, 0) },
+        { points: [2, 9, 1], color: new Vector(0, 255, 0) },
+
+        { points: [3, 11, 7], color: new Vector(0, 255, 0) },
+        { points: [7, 11, 4], color: new Vector(0, 255, 0) },
+        { points: [4, 11, 0], color: new Vector(0, 255, 0) },
+        { points: [0, 11, 3], color: new Vector(0, 255, 0) }
+      ]
+    };
+
+    initializeNormals(star);
+
+    function addObjectPolys(obj) {
+      var pointsOffset = self.points.length;
+      
+      for (var i = 0, point; point = obj.points[i]; ++i) {
+        var newPoint = obj.orientation.translateVector(point).add(obj.pos);
+
+        self.points.push(newPoint);
+      }
+      
+      for (var i = 0, poly; poly = obj.polys[i]; ++i) {
+        var norm = obj.orientation.translateVector(poly.norm);
+
+        var p1 = pointsOffset + poly.points[0];
+        var p2 = pointsOffset + poly.points[1];
+        var p3 = pointsOffset + poly.points[2];
+
+        if (Vector.dotProduct(norm, Vector.subtract(self.points[p1], view.pos)) >= 0) {
+          continue;
+        }
+
+        var color = Vector.scale(poly.color, light.ambient + Math.max(0, -light.intensity * Vector.dotProduct(norm, light.dir)));
+
+        var z = self.points[p1].z +
+                self.points[p2].z +
+                self.points[p3].z;
+
+        self.polys.push({
+          points: [p1, p2, p3],
+          color: color,
+          z: z
+        });
+      }
+      
+      for (var i = pointsOffset, point; point = self.points[i]; ++i) {
+        point.x /= -point.z * 0.002;
+        point.y /= -point.z * 0.002;
+        point.x += 200;
+        point.y = 200 - point.y;
+      }
+    }
+
+    function compareZ(p1, p2) {
+      return p1.z - p2.z;
+    }
+
+    function drawPolys(node) {
+      self.polys.sort(compareZ);
+    
+      for (var i = 0, poly; poly = self.polys[i]; ++i) {
+        drawTriangle([self.points[poly.points[0]], self.points[poly.points[1]], self.points[poly.points[2]]],
+                     "rgb(" + Math.floor(poly.color.x) + "," + Math.floor(poly.color.y) + "," + Math.floor(poly.color.z) + ")");
+      }
+
+      self.polys = [];
+      self.points = [];
+      renderTriangles(node);
+    }
+
+    var rotateX = 0;
+    var rotateY = 0;
+    var rotateZ = 0;
+    
+    var xUnit = new Vector(1, 0, 0);
+    var yUnit = new Vector(0, 1, 0);
+    var zUnit = new Vector(0, 0, 1);
+    
+    var manuallyRotated = false;
+    var ROTATE_SPEED = 0.07;
+    var TARGET_FPS = 16;
+
+    function draw() {
+      addObjectPolys(star);
+      drawPolys(container);
+    }
+
+    function animate() {
+      if (!manuallyRotated) {
+        star.orientation = Quat.rotate(star.orientation, yUnit, ROTATE_SPEED);
+      } else {
+        if (rotateX) {
+          star.orientation = Quat.rotate(star.orientation, xUnit, rotateX);
+        }
+
+        if (rotateY) {
+          star.orientation = Quat.rotate(star.orientation, yUnit, rotateY);
+        }
+
+        if (rotateZ) {
+          star.orientation = Quat.rotate(star.orientation, zUnit, rotateZ);
+        }
+      }
+
+      draw();
+    }
+
+    function load() {
+      self.container = document.getElementById("container");
+      star.orientation = Quat.rotate(star.orientation, xUnit, -.5);
+      star.orientation = Quat.rotate(star.orientation, yUnit, -.5);
+      setInterval(animate, 1000 / TARGET_FPS);
+    }
+    
+    function keydown(event) {
+      var key = String.fromCharCode(event.keyCode || event.which);
+      
+      switch (key) {
+        case "A":
+          rotateY = -ROTATE_SPEED;
+          manuallyRotated = true;
+          break;
+        case "D":
+          rotateY = ROTATE_SPEED;
+          manuallyRotated = true;
+          break;
+        case "W":
+          rotateX = -ROTATE_SPEED;
+          manuallyRotated = true;
+          break;
+        case "S":
+          rotateX = ROTATE_SPEED;
+          manuallyRotated = true;
+          break;
+        case "Q":
+          rotateZ = -ROTATE_SPEED;
+          manuallyRotated = true;
+          break;
+        case "E":
+          rotateZ = ROTATE_SPEED;
+          manuallyRotated = true;
+          break;
+        default:
+          return true;
+      }
+      
+      return false;
+    }
+
+    function keyup(event) {
+      var key = String.fromCharCode(event.keyCode || event.which);
+
+      switch (key) {
+        case "A":
+        case "D":
+          rotateY = 0;
+          break;
+        case "W":
+        case "S":
+          rotateX = 0;
+          break;
+        case "Q":
+        case "E":
+          rotateZ = 0;
+          break;
+        default:
+          return true;
+      }
+      
+      return false;
+    }
+  /* ]]> */
+  </script>
+ <body onload="load()" onkeydown="keydown(event)" onkeyup="keyup(event)">
+<h1>border</h1>
+<hr/>
+<div id="f1" style="border-color: #000;
+border-style: solid; 
+border-width: 100px;width:300px;height:300px;margin:0 auto;">
+</div>
+<div class='tip'>1</div>
+<hr/>
+
+<div id="f2">
+</div>
+<div class='tip'>2，只显示右边<br/> <span  >(其它 <i>border-color</i> 设为  <i>transparent </i>)</span></div>
+<hr/>
+
+<div id="f3">
+</div>
+<div class='tip'>3，高度设为0  <a href='http://121.40.140.234:4200/annualmeeting'>demo</a></div>
+<hr/>
+
+<div style="width:200px;height:50px;background:#fff;position: relative;border:1px solid #b3aaaa;float:right;margin-right:20px;top:20px;">
+
+<div  style="border-color: #000 transparent transparent;
+border-style: solid dashed dashed; 
+border-width: 15px 15px 0;width:0px;margin-top:15px;margin-left:10px;">
+</div>
+
+</div>
+<div style="clear:both;height:50px;">
+	
+</div>
+<div class='tip'>4，只显示上边。<br/>高度设为0， 宽度为0，<br/>border底部为0 其它 300 </div>
+
+<div id="p1" style="border-color: #000 transparent transparent;
+border-style: solid dashed dashed; 
+border-width: 300px 300px 0;width:0px;margin:0 auto;">
+</div>
+
+
+<hr/>
+
+
+<div style="position: relative;height:700px">
+<div id='v' style="border-color: #000 transparent transparent;
+border-style: solid dashed dashed;
+border-width: 400px 400px 0;width:0px;margin:0 auto; position:absolute;top:100px;left:0">
+</div>
+<div style="border-color: #fff transparent transparent;
+border-style: solid dashed dashed; position:absolute;top:100px;left:100px;
+border-width: 300px 300px 0;width:0px;margin:0 auto;">
+</div>
+
+
+<div style="width:200px;height:50px;background:#fff;position: relative;border:1px solid #b3aaaa;float:right;margin-right:20px;top:20px;">
+
+<div class="smbhs_SJX smbhs_sanjiaoD" style="bottom:100%;left:10px;">
+
+<div class="smbhs_SJX smbhs_sanjiaoD1"></div>
+
+</div>
+
+</div>
+<div style="clear:both;height:50px;">
+	
+</div>
+<div class='tip'>5，两个DIV组合</div>
+</div>
+
+
+<hr/>
+<style>
+.last2{float: left;border: 1px solid #eee;padding: 5px;text-align: center;margin: 5px;}
+</style>
+<div style="position: relative;height:700px">
+<div class="tip" style="font-size:14px;position:absolute;top:20px;right:20px;z-index:200;">
+<div style="clear:both;height:50px;font-size:20px;line-height:50px;text-align: center;">
+	外部div
+</div>
+<div class="last2">
+宽度：<br/><input type='range' id='width1' min="0" max="1000" />
+</div>
+<div class="last2">
+高度：<br/><input type='range' id='height1' min="0" max="1000" />
+</div>
+<div class="last2">
+top：<br/><input type='range' id='top1' min="-1000" max="1000" />
+</div>
+<div class="last2">
+left:<br/><input type='range' id='left1' min="-1000" max="1000" />
+</div>
+
+<div style="clear:both">border</div>
+<div class="last2">
+顶部高度：<br/><input type='range' id='borderwidthTop1' min="0" max="1000" />
+</div>
+<div class="last2">
+左部高度：<br/><input type='range' id='borderwidthLeft1' min="0" max="1000" />
+</div>
+<div class="last2">
+右部高度：<br/><input type='range' id='borderwidthright1' min="0" max="1000" />
+</div>
+<div class="last2">
+底部高度：<br/><input type='range' id='borderwidthbottom1' min="0" max="1000" />
+</div>
+<div style="clear:both;height:50px;font-size:20px;line-height:50px;text-align: center;">
+	中间div
+</div>
+
+<div class="last2">
+宽度：<br/><input type='range' id='width2' min="0" max="1000" />
+</div>
+<div class="last2">
+高度：<br/><input type='range' id='height2' min="0" max="1000" />
+</div>
+<div class="last2">
+top：<br/><input type='range' id='top2' min="-1000" max="1000" />
+</div>
+<div class="last2">
+left:<br/><input type='range' id='left2' min="-1000" max="1000" />
+</div>
+
+<div style="clear:both">
+	border
+</div>
+<div class="last2">
+顶部高度：<br/><input type='range' id='borderwidthTop2' min="0" max="1000" />
+</div>
+<div class="last2">
+左部高度：<br/><input type='range' id='borderwidthLeft2' min="0" max="1000" />
+</div>
+<div class="last2">
+右部高度：<br/><input type='range' id='borderwidthright2' min="0" max="1000" />
+</div>
+<div class="last2">
+底部高度：<br/><input type='range' id='borderwidthbottom2' min="0" max="1000" />
+</div>
+
+</div>
+
+<div id='last2' class="smbhs_SJX smbhs_sanjiaoD">
+
+<div class="smbhs_SJX smbhs_sanjiaoD1"></div>
+</div>
+
+</div>
+<hr/>
+
+<div style="position: relative;height:700px">
+
+<div id="container"></div>
+
+</div>
+<div class='tip'>http://www.uselesspickles.com/triangles/</div>
+<hr/>
+<div style="position: relative;height:1700px;margin: 0 auto;width: 980px">
+<div class='tip'>静态分析</div>
+<div id='test2'><div style="position:absolute;height:0px;left:192px;top:150px;border-left-style:solid;border-bottom-style:solid;border-left-color:transparent;border-bottom-color:rgb(0,123,0);border-left-width:59px;border-bottom-width:11px;"></div><div style="position:absolute;height:0px;left:250px;top:151px;border-right-style:solid;border-top-style:solid;border-right-color:transparent;border-top-color:rgb(0,123,0);border-right-width:29px;border-top-width:11px;"></div><div style="position:absolute;height:0px;left:249px;top:146px;border-left-style:solid;border-bottom-style:solid;border-left-color:transparent;border-bottom-color:rgb(0,123,0);border-left-width:29px;border-bottom-width:6px;"></div><div style="position:absolute;height:0px;left:278px;top:147px;border-right-style:solid;border-top-style:solid;border-right-color:transparent;border-top-color:rgb(0,123,0);border-right-width:14px;border-top-width:6px;"></div><div style="position:absolute;height:0px;left:277px;top:144px;border-left-style:solid;border-bottom-style:solid;border-left-color:transparent;border-bottom-color:rgb(0,123,0);border-left-width:14px;border-bottom-width:4px;"></div><div style="position:absolute;height:0px;left:291px;top:145px;border-right-style:solid;border-top-style:solid;border-right-color:transparent;border-top-color:rgb(0,123,0);border-right-width:8px;border-top-width:4px;"></div><div style="position:absolute;height:0px;left:290px;top:143px;border-left-style:solid;border-bottom-style:solid;border-left-color:transparent;border-bottom-color:rgb(0,123,0);border-left-width:8px;border-bottom-width:3px;"></div><div style="position:absolute;height:0px;left:297px;top:144px;border-right-style:solid;border-top-style:solid;border-right-color:transparent;border-top-color:rgb(0,123,0);border-right-width:4px;border-top-width:3px;"></div><div style="position:absolute;height:0px;left:296px;top:142px;border-left-style:solid;border-bottom-style:solid;border-left-color:transparent;border-bottom-color:rgb(0,123,0);border-left-width:4px;border-bottom-width:2px;"></div><div style="position:absolute;height:0px;left:300px;top:143px;border-right-style:solid;border-top-style:solid;border-right-color:transparent;border-top-color:rgb(0,123,0);border-right-width:3px;border-top-width:2px;"></div><div style="position:absolute;height:0px;left:299px;top:142px;border-left-style:solid;border-bottom-style:solid;border-left-color:transparent;border-bottom-color:rgb(0,123,0);border-left-width:3px;border-bottom-width:2px;"></div><div style="position:absolute;height:0px;left:301px;top:143px;border-right-style:solid;border-top-style:solid;border-right-color:transparent;border-top-color:rgb(0,123,0);border-right-width:2px;border-top-width:2px;"></div><div style="position:absolute;height:0px;left:300px;top:142px;border-left-style:solid;border-bottom-style:solid;border-left-color:transparent;border-bottom-color:rgb(0,123,0);border-left-width:3px;border-bottom-width:2px;"></div><div style="position:absolute;height:0px;left:192px;top:161px;border-left-style:solid;border-top-style:solid;border-left-color:transparent;border-top-color:rgb(0,123,0);border-left-width:47px;border-top-width:6px;"></div><div style="position:absolute;height:0px;left:238px;top:161px;border-right-style:solid;border-top-style:solid;border-right-color:transparent;border-top-color:rgb(0,123,0);border-right-width:14px;border-top-width:6px;"></div><div style="position:absolute;height:0px;left:90px;top:167px;border-left-style:solid;border-bottom-style:solid;border-left-color:transparent;border-bottom-color:rgb(107,0,0);border-left-width:63px;border-bottom-width:13px;"></div><div style="position:absolute;height:0px;left:153px;top:168px;border-right-style:solid;border-top-style:solid;border-right-color:transparent;border-top-color:rgb(107,0,0);border-right-width:26px;border-top-width:13px;"></div><div style="position:absolute;height:0px;left:152px;top:163px;border-left-style:solid;border-bottom-style:solid;border-left-color:transparent;border-bottom-color:rgb(107,0,0);border-left-width:26px;border-bottom-width:6px;"></div><div style="position:absolute;height:0px;left:177px;top:164px;border-right-style:solid;border-top-style:solid;border-right-color:transparent;border-top-color:rgb(107,0,0);border-right-width:11px;border-top-width:6px;"></div><div style="position:absolute;height:0px;left:176px;top:161px;border-left-style:solid;border-bottom-style:solid;border-left-color:transparent;border-bottom-color:rgb(107,0,0);border-left-width:11px;border-bottom-width:3px;"></div><div style="position:absolute;height:0px;left:187px;top:162px;border-right-style:solid;border-top-style:solid;border-right-color:transparent;border-top-color:rgb(107,0,0);border-right-width:5px;border-top-width:3px;"></div><div style="position:absolute;height:0px;left:186px;top:160px;border-left-style:solid;border-bottom-style:solid;border-left-color:transparent;border-bottom-color:rgb(107,0,0);border-left-width:5px;border-bottom-width:2px;"></div><div style="position:absolute;height:0px;left:191px;top:161px;border-right-style:solid;border-top-style:solid;border-right-color:transparent;border-top-color:rgb(107,0,0);border-right-width:3px;border-top-width:2px;"></div><div style="position:absolute;height:0px;left:190px;top:160px;border-left-style:solid;border-bottom-style:solid;border-left-color:transparent;border-bottom-color:rgb(107,0,0);border-left-width:4px;border-bottom-width:2px;"></div><div style="position:absolute;height:0px;left:91px;top:180px;border-right-style:solid;border-top-style:solid;border-right-color:transparent;border-top-color:rgb(107,0,0);border-right-width:63px;border-top-width:3px;"></div><div style="position:absolute;height:0px;left:82px;top:179px;border-left-style:solid;border-bottom-style:solid;border-left-color:transparent;border-bottom-color:rgb(107,0,0);border-left-width:10px;border-bottom-width:3px;"></div><div style="position:absolute;height:0px;left:83px;top:181px;border-right-style:solid;border-top-style:solid;border-right-color:transparent;border-top-color:rgb(107,0,0);border-right-width:10px;border-top-width:2px;"></div><div style="position:absolute;height:0px;left:81px;top:180px;border-left-style:solid;border-bottom-style:solid;border-left-color:transparent;border-bottom-color:rgb(107,0,0);border-left-width:3px;border-bottom-width:2px;"></div><div style="position:absolute;height:0px;left:82px;top:181px;border-right-style:solid;border-top-style:solid;border-right-color:transparent;border-top-color:rgb(107,0,0);border-right-width:3px;border-top-width:2px;"></div><div style="position:absolute;height:0px;left:237px;top:147px;border-left-style:solid;border-bottom-style:solid;border-left-color:transparent;border-bottom-color:rgb(0,196,0);border-left-width:50px;border-bottom-width:18px;"></div><div style="position:absolute;height:0px;left:287px;top:148px;border-right-style:solid;border-top-style:solid;border-right-color:transparent;border-top-color:rgb(0,196,0);border-right-width:13px;border-top-width:18px;"></div><div style="position:absolute;height:0px;left:286px;top:143px;border-left-style:solid;border-bottom-style:solid;border-left-color:transparent;border-bottom-color:rgb(0,196,0);border-left-width:13px;border-bottom-width:6px;"></div><div style="position:absolute;height:0px;left:298px;top:144px;border-right-style:solid;border-top-style:solid;border-right-color:transparent;border-top-color:rgb(0,196,0);border-right-width:4px;border-top-width:6px;"></div><div style="position:absolute;height:0px;left:297px;top:142px;border-left-style:solid;border-bottom-style:solid;border-left-color:transparent;border-bottom-color:rgb(0,196,0);border-left-width:5px;border-bottom-width:3px;"></div><div style="position:absolute;height:0px;left:237px;top:165px;border-left-style:solid;border-top-style:solid;border-left-color:transparent;border-top-color:rgb(0,196,0);border-left-width:9px;border-top-width:57px;"></div><div style="position:absolute;height:0px;left:246px;top:165px;border-right-style:solid;border-top-style:solid;border-right-color:transparent;border-top-color:rgb(0,196,0);border-right-width:42px;border-top-width:57px;"></div><div style="position:absolute;height:0px;left:81px;top:179px;border-left-style:solid;border-bottom-style:solid;border-left-color:transparent;border-bottom-color:rgb(86,0,0);border-left-width:72px;border-bottom-width:3px;"></div><div style="position:absolute;height:0px;left:153px;top:179px;border-right-style:solid;border-bottom-style:solid;border-right-color:transparent;border-bottom-color:rgb(86,0,0);border-right-width:2px;border-bottom-width:3px;"></div><div style="position:absolute;height:0px;left:81px;top:181px;border-left-style:solid;border-top-style:solid;border-left-color:transparent;border-top-color:rgb(86,0,0);border-left-width:73px;border-top-width:48px;"></div><div style="position:absolute;height:0px;left:153px;top:180px;border-right-style:solid;border-bottom-style:solid;border-right-color:transparent;border-bottom-color:rgb(86,0,0);border-right-width:11px;border-bottom-width:48px;"></div><div style="position:absolute;height:0px;left:152px;top:228px;border-left-style:solid;border-top-style:solid;border-left-color:transparent;border-top-color:rgb(86,0,0);border-left-width:11px;border-top-width:8px;"></div><div style="position:absolute;height:0px;left:163px;top:227px;border-right-style:solid;border-bottom-style:solid;border-right-color:transparent;border-bottom-color:rgb(86,0,0);border-right-width:3px;border-bottom-width:8px;"></div><div style="position:absolute;height:0px;left:162px;top:234px;border-left-style:solid;border-top-style:solid;border-left-color:transparent;border-top-color:rgb(86,0,0);border-left-width:3px;border-top-width:2px;"></div><div style="position:absolute;height:0px;left:208px;top:221px;border-left-style:solid;border-bottom-style:solid;border-left-color:transparent;border-bottom-color:rgb(0,0,192);border-left-width:36px;border-bottom-width:24px;"></div><div style="position:absolute;height:0px;left:243px;top:222px;border-right-style:solid;border-top-style:solid;border-right-color:transparent;border-top-color:rgb(0,0,192);border-right-width:4px;border-top-width:24px;"></div><div style="position:absolute;height:0px;left:242px;top:219px;border-left-style:solid;border-bottom-style:solid;border-left-color:transparent;border-bottom-color:rgb(0,0,192);border-left-width:5px;border-bottom-width:4px;"></div><div style="position:absolute;height:0px;left:208px;top:245px;border-left-style:solid;border-top-style:solid;border-left-color:transparent;border-top-color:rgb(0,0,192);border-left-width:21px;border-top-width:118px;"></div><div style="position:absolute;height:0px;left:228px;top:245px;border-right-style:solid;border-top-style:solid;border-right-color:transparent;border-top-color:rgb(0,0,192);border-right-width:16px;border-top-width:118px;"></div><div style="position:absolute;height:0px;left:170px;top:235px;border-right-style:solid;border-bottom-style:solid;border-right-color:transparent;border-bottom-color:rgb(0,0,99);border-right-width:41px;border-bottom-width:11px;"></div><div style="position:absolute;height:0px;left:164px;top:236px;border-left-style:solid;border-top-style:solid;border-left-color:transparent;border-top-color:rgb(0,0,99);border-left-width:6px;border-top-width:11px;"></div><div style="position:absolute;height:0px;left:164px;top:234px;border-right-style:solid;border-bottom-style:solid;border-right-color:transparent;border-bottom-color:rgb(0,0,99);border-right-width:7px;border-bottom-width:3px;"></div><div style="position:absolute;height:0px;left:169px;top:245px;border-left-style:solid;border-top-style:solid;border-left-color:transparent;border-top-color:rgb(0,0,99);border-left-width:41px;border-top-width:79px;"></div><div style="position:absolute;height:0px;left:209px;top:244px;border-right-style:solid;border-bottom-style:solid;border-right-color:transparent;border-bottom-color:rgb(0,0,99);border-right-width:15px;border-bottom-width:79px;"></div><div style="position:absolute;height:0px;left:208px;top:323px;border-left-style:solid;border-top-style:solid;border-left-color:transparent;border-top-color:rgb(0,0,99);border-left-width:15px;border-top-width:28px;"></div><div style="position:absolute;height:0px;left:222px;top:322px;border-right-style:solid;border-bottom-style:solid;border-right-color:transparent;border-bottom-color:rgb(0,0,99);border-right-width:6px;border-bottom-width:28px;"></div><div style="position:absolute;height:0px;left:221px;top:349px;border-left-style:solid;border-top-style:solid;border-left-color:transparent;border-top-color:rgb(0,0,99);border-left-width:6px;border-top-width:10px;"></div><div style="position:absolute;height:0px;left:226px;top:348px;border-right-style:solid;border-bottom-style:solid;border-right-color:transparent;border-bottom-color:rgb(0,0,99);border-right-width:3px;border-bottom-width:10px;"></div><div style="position:absolute;height:0px;left:225px;top:358px;border-left-style:solid;border-top-style:solid;border-left-color:transparent;border-top-color:rgb(0,0,99);border-left-width:4px;border-top-width:6px;"></div><div style="position:absolute;height:0px;left:195px;top:60px;border-right-style:solid;border-bottom-style:solid;border-right-color:transparent;border-bottom-color:rgb(0,0,227);border-right-width:45px;border-bottom-width:105px;"></div><div style="position:absolute;height:0px;left:176px;top:61px;border-left-style:solid;border-top-style:solid;border-left-color:transparent;border-top-color:rgb(0,0,227);border-left-width:20px;border-top-width:105px;"></div><div style="position:absolute;height:0px;left:177px;top:16px;border-right-style:solid;border-bottom-style:solid;border-right-color:transparent;border-bottom-color:rgb(0,0,227);border-right-width:20px;border-bottom-width:45px;"></div><div style="position:absolute;height:0px;left:168px;top:17px;border-left-style:solid;border-top-style:solid;border-left-color:transparent;border-top-color:rgb(0,0,227);border-left-width:9px;border-top-width:45px;"></div><div style="position:absolute;height:0px;left:169px;top:-2px;border-right-style:solid;border-bottom-style:solid;border-right-color:transparent;border-bottom-color:rgb(0,0,227);border-right-width:9px;border-bottom-width:20px;"></div><div style="position:absolute;height:0px;left:165px;top:-1px;border-left-style:solid;border-top-style:solid;border-left-color:transparent;border-top-color:rgb(0,0,227);border-left-width:5px;border-top-width:20px;"></div><div style="position:absolute;height:0px;left:166px;top:-10px;border-right-style:solid;border-bottom-style:solid;border-right-color:transparent;border-bottom-color:rgb(0,0,227);border-right-width:5px;border-bottom-width:9px;"></div><div style="position:absolute;height:0px;left:163px;top:-9px;border-left-style:solid;border-top-style:solid;border-left-color:transparent;border-top-color:rgb(0,0,227);border-left-width:3px;border-top-width:9px;"></div><div style="position:absolute;height:0px;left:163px;top:-15px;border-right-style:solid;border-bottom-style:solid;border-right-color:transparent;border-bottom-color:rgb(0,0,227);border-right-width:4px;border-bottom-width:7px;"></div><div style="position:absolute;height:0px;left:194px;top:165px;border-left-style:solid;border-top-style:solid;border-left-color:transparent;border-top-color:rgb(0,0,227);border-left-width:5px;border-top-width:23px;"></div><div style="position:absolute;height:0px;left:199px;top:165px;border-right-style:solid;border-top-style:solid;border-right-color:transparent;border-top-color:rgb(0,0,227);border-right-width:41px;border-top-width:23px;"></div><div style="position:absolute;height:0px;left:152px;top:-15px;border-left-style:solid;border-bottom-style:solid;border-left-color:transparent;border-bottom-color:rgb(0,0,134);border-left-width:12px;border-bottom-width:195px;"></div><div style="position:absolute;height:0px;left:163px;top:-15px;border-right-style:solid;border-bottom-style:solid;border-right-color:transparent;border-bottom-color:rgb(0,0,134);border-right-width:35px;border-bottom-width:195px;"></div><div style="position:absolute;height:0px;left:152px;top:180px;border-left-style:solid;border-top-style:solid;border-left-color:transparent;border-top-color:rgb(0,0,134);border-left-width:46px;border-top-width:8px;"></div><div style="position:absolute;height:0px;left:197px;top:179px;border-right-style:solid;border-bottom-style:solid;border-right-color:transparent;border-bottom-color:rgb(0,0,134);border-right-width:3px;border-bottom-width:8px;"></div><div style="position:absolute;height:0px;left:196px;top:186px;border-left-style:solid;border-top-style:solid;border-left-color:transparent;border-top-color:rgb(0,0,134);border-left-width:3px;border-top-width:2px;"></div><div style="position:absolute;height:0px;left:198px;top:164px;border-left-style:solid;border-bottom-style:solid;border-left-color:transparent;border-bottom-color:rgb(167,42,0);border-left-width:41px;border-bottom-width:23px;"></div><div style="position:absolute;height:0px;left:238px;top:164px;border-right-style:solid;border-bottom-style:solid;border-right-color:transparent;border-bottom-color:rgb(167,42,0);border-right-width:53px;border-bottom-width:23px;"></div><div style="position:absolute;height:0px;left:198px;top:186px;border-left-style:solid;border-top-style:solid;border-left-color:transparent;border-top-color:rgb(167,42,0);border-left-width:92px;border-top-width:22px;"></div><div style="position:absolute;height:0px;left:289px;top:185px;border-right-style:solid;border-bottom-style:solid;border-right-color:transparent;border-bottom-color:rgb(167,42,0);border-right-width:52px;border-bottom-width:22px;"></div><div style="position:absolute;height:0px;left:288px;top:207px;border-left-style:solid;border-top-style:solid;border-left-color:transparent;border-top-color:rgb(167,42,0);border-left-width:52px;border-top-width:13px;"></div><div style="position:absolute;height:0px;left:340px;top:206px;border-right-style:solid;border-bottom-style:solid;border-right-color:transparent;border-bottom-color:rgb(167,42,0);border-right-width:30px;border-bottom-width:13px;"></div><div style="position:absolute;height:0px;left:339px;top:219px;border-left-style:solid;border-top-style:solid;border-left-color:transparent;border-top-color:rgb(167,42,0);border-left-width:30px;border-top-width:8px;"></div><div style="position:absolute;height:0px;left:368px;top:218px;border-right-style:solid;border-bottom-style:solid;border-right-color:transparent;border-bottom-color:rgb(167,42,0);border-right-width:17px;border-bottom-width:8px;"></div><div style="position:absolute;height:0px;left:367px;top:225px;border-left-style:solid;border-top-style:solid;border-left-color:transparent;border-top-color:rgb(167,42,0);border-left-width:17px;border-top-width:5px;"></div><div style="position:absolute;height:0px;left:383px;top:224px;border-right-style:solid;border-bottom-style:solid;border-right-color:transparent;border-bottom-color:rgb(167,42,0);border-right-width:10px;border-bottom-width:5px;"></div><div style="position:absolute;height:0px;left:382px;top:229px;border-left-style:solid;border-top-style:solid;border-left-color:transparent;border-top-color:rgb(167,42,0);border-left-width:10px;border-top-width:3px;"></div><div style="position:absolute;height:0px;left:392px;top:228px;border-right-style:solid;border-bottom-style:solid;border-right-color:transparent;border-bottom-color:rgb(167,42,0);border-right-width:6px;border-bottom-width:3px;"></div><div style="position:absolute;height:0px;left:391px;top:231px;border-left-style:solid;border-top-style:solid;border-left-color:transparent;border-top-color:rgb(167,42,0);border-left-width:6px;border-top-width:3px;"></div><div style="position:absolute;height:0px;left:397px;top:230px;border-right-style:solid;border-bottom-style:solid;border-right-color:transparent;border-bottom-color:rgb(167,42,0);border-right-width:4px;border-bottom-width:3px;"></div><div style="position:absolute;height:0px;left:396px;top:232px;border-left-style:solid;border-top-style:solid;border-left-color:transparent;border-top-color:rgb(167,42,0);border-left-width:4px;border-top-width:2px;"></div><div style="position:absolute;height:0px;left:399px;top:231px;border-right-style:solid;border-bottom-style:solid;border-right-color:transparent;border-bottom-color:rgb(167,42,0);border-right-width:3px;border-bottom-width:2px;"></div><div style="position:absolute;height:0px;left:145px;top:179px;border-left-style:solid;border-bottom-style:solid;border-left-color:transparent;border-bottom-color:rgb(0,151,0);border-left-width:8px;border-bottom-width:8px;"></div><div style="position:absolute;height:0px;left:153px;top:179px;border-right-style:solid;border-bottom-style:solid;border-right-color:transparent;border-bottom-color:rgb(0,151,0);border-right-width:47px;border-bottom-width:8px;"></div><div style="position:absolute;height:0px;left:146px;top:186px;border-right-style:solid;border-top-style:solid;border-right-color:transparent;border-top-color:rgb(0,151,0);border-right-width:54px;border-top-width:36px;"></div><div style="position:absolute;height:0px;left:109px;top:185px;border-left-style:solid;border-bottom-style:solid;border-left-color:transparent;border-bottom-color:rgb(0,151,0);border-left-width:38px;border-bottom-width:36px;"></div><div style="position:absolute;height:0px;left:110px;top:220px;border-right-style:solid;border-top-style:solid;border-right-color:transparent;border-top-color:rgb(0,151,0);border-right-width:38px;border-top-width:26px;"></div><div style="position:absolute;height:0px;left:83px;top:219px;border-left-style:solid;border-bottom-style:solid;border-left-color:transparent;border-bottom-color:rgb(0,151,0);border-left-width:27px;border-bottom-width:26px;"></div><div style="position:absolute;height:0px;left:84px;top:244px;border-right-style:solid;border-top-style:solid;border-right-color:transparent;border-top-color:rgb(0,151,0);border-right-width:27px;border-top-width:18px;"></div><div style="position:absolute;height:0px;left:65px;top:243px;border-left-style:solid;border-bottom-style:solid;border-left-color:transparent;border-bottom-color:rgb(0,151,0);border-left-width:19px;border-bottom-width:18px;"></div><div style="position:absolute;height:0px;left:66px;top:261px;border-right-style:solid;border-top-style:solid;border-right-color:transparent;border-top-color:rgb(0,151,0);border-right-width:19px;border-top-width:13px;"></div><div style="position:absolute;height:0px;left:52px;top:260px;border-left-style:solid;border-bottom-style:solid;border-left-color:transparent;border-bottom-color:rgb(0,151,0);border-left-width:14px;border-bottom-width:13px;"></div><div style="position:absolute;height:0px;left:53px;top:273px;border-right-style:solid;border-top-style:solid;border-right-color:transparent;border-top-color:rgb(0,151,0);border-right-width:14px;border-top-width:10px;"></div><div style="position:absolute;height:0px;left:44px;top:272px;border-left-style:solid;border-bottom-style:solid;border-left-color:transparent;border-bottom-color:rgb(0,151,0);border-left-width:10px;border-bottom-width:10px;"></div><div style="position:absolute;height:0px;left:45px;top:281px;border-right-style:solid;border-top-style:solid;border-right-color:transparent;border-top-color:rgb(0,151,0);border-right-width:10px;border-top-width:7px;"></div><div style="position:absolute;height:0px;left:37px;top:280px;border-left-style:solid;border-bottom-style:solid;border-left-color:transparent;border-bottom-color:rgb(0,151,0);border-left-width:8px;border-bottom-width:7px;"></div><div style="position:absolute;height:0px;left:38px;top:287px;border-right-style:solid;border-top-style:solid;border-right-color:transparent;border-top-color:rgb(0,151,0);border-right-width:8px;border-top-width:6px;"></div><div style="position:absolute;height:0px;left:33px;top:286px;border-left-style:solid;border-bottom-style:solid;border-left-color:transparent;border-bottom-color:rgb(0,151,0);border-left-width:6px;border-bottom-width:6px;"></div><div style="position:absolute;height:0px;left:207px;top:187px;border-right-style:solid;border-bottom-style:solid;border-right-color:transparent;border-bottom-color:rgb(146,36,0);border-right-width:198px;border-bottom-width:47px;"></div><div style="position:absolute;height:0px;left:198px;top:188px;border-left-style:solid;border-top-style:solid;border-left-color:transparent;border-top-color:rgb(146,36,0);border-left-width:9px;border-top-width:47px;"></div><div style="position:absolute;height:0px;left:199px;top:185px;border-right-style:solid;border-bottom-style:solid;border-right-color:transparent;border-bottom-color:rgb(146,36,0);border-right-width:10px;border-bottom-width:3px;"></div><div style="position:absolute;height:0px;left:206px;top:233px;border-left-style:solid;border-top-style:solid;border-left-color:transparent;border-top-color:rgb(146,36,0);border-left-width:4px;border-top-width:14px;"></div><div style="position:absolute;height:0px;left:209px;top:233px;border-right-style:solid;border-top-style:solid;border-right-color:transparent;border-top-color:rgb(146,36,0);border-right-width:195px;border-top-width:14px;"></div><div style="position:absolute;height:0px;left:107px;top:185px;border-left-style:solid;border-bottom-style:solid;border-left-color:transparent;border-bottom-color:rgb(0,223,0);border-left-width:92px;border-bottom-width:61px;"></div><div style="position:absolute;height:0px;left:199px;top:185px;border-right-style:solid;border-bottom-style:solid;border-right-color:transparent;border-bottom-color:rgb(0,223,0);border-right-width:12px;border-bottom-width:61px;"></div><div style="position:absolute;height:0px;left:108px;top:245px;border-right-style:solid;border-top-style:solid;border-right-color:transparent;border-top-color:rgb(0,223,0);border-right-width:102px;border-top-width:32px;"></div><div style="position:absolute;height:0px;left:61px;top:244px;border-left-style:solid;border-bottom-style:solid;border-left-color:transparent;border-bottom-color:rgb(0,223,0);border-left-width:47px;border-bottom-width:32px;"></div><div style="position:absolute;height:0px;left:62px;top:275px;border-right-style:solid;border-top-style:solid;border-right-color:transparent;border-top-color:rgb(0,223,0);border-right-width:47px;border-top-width:15px;"></div><div style="position:absolute;height:0px;left:40px;top:274px;border-left-style:solid;border-bottom-style:solid;border-left-color:transparent;border-bottom-color:rgb(0,223,0);border-left-width:22px;border-bottom-width:15px;"></div><div style="position:absolute;height:0px;left:41px;top:289px;border-right-style:solid;border-top-style:solid;border-right-color:transparent;border-top-color:rgb(0,223,0);border-right-width:22px;border-top-width:8px;"></div><div style="position:absolute;height:0px;left:31px;top:288px;border-left-style:solid;border-bottom-style:solid;border-left-color:transparent;border-bottom-color:rgb(0,223,0);border-left-width:11px;border-bottom-width:8px;"></div><div style="position:absolute;height:0px;left:32px;top:295px;border-right-style:solid;border-top-style:solid;border-right-color:transparent;border-top-color:rgb(0,223,0);border-right-width:11px;border-top-width:4px;"></div><div style="position:absolute;height:0px;left:27px;top:294px;border-left-style:solid;border-bottom-style:solid;border-left-color:transparent;border-bottom-color:rgb(0,223,0);border-left-width:6px;border-bottom-width:4px;"></div><div style="position:absolute;height:0px;left:28px;top:298px;border-right-style:solid;border-top-style:solid;border-right-color:transparent;border-top-color:rgb(0,223,0);border-right-width:6px;border-top-width:3px;"></div><div style="position:absolute;height:0px;left:25px;top:297px;border-left-style:solid;border-bottom-style:solid;border-left-color:transparent;border-bottom-color:rgb(0,223,0);border-left-width:3px;border-bottom-width:3px;"></div><div style="position:absolute;height:0px;left:26px;top:299px;border-right-style:solid;border-top-style:solid;border-right-color:transparent;border-top-color:rgb(0,223,0);border-right-width:3px;border-top-width:2px;"></div><div style="position:absolute;height:0px;left:24px;top:298px;border-left-style:solid;border-bottom-style:solid;border-left-color:transparent;border-bottom-color:rgb(0,223,0);border-left-width:2px;border-bottom-width:2px;"></div><div style="position:absolute;height:0px;left:24px;top:300px;border-right-style:solid;border-top-style:solid;border-right-color:transparent;border-top-color:rgb(0,223,0);border-right-width:3px;border-top-width:2px;"></div></div>
+</div>
+
+<script type="text/javascript">
+var V=$('#v'),V_n=V.next();
+$('#p1').dw_autoM();
+$('#v').dw_autoM();
+V_n.css('left',Number(V.css('left').split('px')[0])+100);
+var test=$('#last2'),testC=test.children();
+var width2=$('#width2');
+width2.val(Number(testC.width()));
+$('#width2').change(function(event) {
+	testC.width($(this).val());
+});
+
+var width1=$('#width1');
+
+width1.val(Number(test.width()));
+//alert(width1.val())
+width1.change(function(event) {
+	test.width($(this).val());
+});
+var height1=$('#height1');
+
+height1.val(Number(test.width()));
+//alert(width1.val())
+height1.change(function(event) {
+	test.width($(this).val());
+});
+
+var height2=$('#height2');
+
+height2.val(Number(testC.width()));
+//alert(width1.val())
+height2.change(function(event) {
+	testC.width($(this).val());
+});
+
+
+var top1=$('#top1');
+top1.val(Number(test.css('top').split('px')[0]));
+top1.change(function(event) {
+	test.css('top',$(this).val());
+});
+var top2=$('#top2');
+top2.val(Number(testC.css('top').split('px')[0]));
+top2.change(function(event) {
+	testC.css('top',$(this).val());
+});
+var left2=$('#left2');
+left2.val(Number(testC.css('left').split('px')[0]));
+left2.change(function(event) {
+	testC.css('left',$(this).val());
+});
+var left1=$('#left1');
+left1.val(Number(testC.css('left').split('px')[0]));
+left1.change(function(event) {
+	testC.css('left',$(this).val());
+});
+
+var borderwidthTop2=$('#borderwidthTop2');
+borderwidthTop2.val(Number(testC.css('borderTopWidth').split('px')[0]));
+borderwidthTop2.change(function(event) {
+	testC.css('borderTopWidth',$(this).val());
+});
+var borderwidthTop1=$('#borderwidthTop1');
+borderwidthTop1.val(Number(test.css('borderTopWidth').split('px')[0]));
+borderwidthTop1.change(function(event) {
+	test.css('borderTopWidth',$(this).val());
+});
+var borderwidthLeft2=$('#borderwidthLeft2');
+borderwidthLeft2.val(Number(testC.css('borderLeftWidth').split('px')[0]));
+borderwidthLeft2.change(function(event) {
+	testC.css('borderLeftWidth',$(this).val());
+});
+var borderwidthLeft1=$('#borderwidthLeft1');
+borderwidthLeft1.val(Number(test.css('borderLeftWidth').split('px')[0]));
+borderwidthLeft1.change(function(event) {
+	test.css('borderLeftWidth',$(this).val());
+});
+var borderwidthright2=$('#borderwidthright2');
+borderwidthright2.val(Number(testC.css('borderRightWidth').split('px')[0]));
+borderwidthright2.change(function(event) {
+	testC.css('borderRightWidth',$(this).val());
+});
+var borderwidthright1=$('#borderwidthright1');
+borderwidthright1.val(Number(test.css('borderRightWidth').split('px')[0]));
+borderwidthright1.change(function(event) {
+	test.css('borderRightWidth',$(this).val());
+});
+var borderwidthbottom2=$('#borderwidthbottom2');
+borderwidthbottom2.val(Number(testC.css('borderBottomWidth').split('px')[0]));
+borderwidthbottom2.change(function(event) {
+	testC.css('borderBottomWidth',$(this).val());
+});
+var borderwidthbottom1=$('#borderwidthbottom1');
+borderwidthbottom1.val(Number(test.css('borderBottomWidth').split('px')[0]));
+borderwidthbottom1.change(function(event) {
+	test.css('borderBottomWidth',$(this).val());
+});
+
+
+var test2=$('#test2').children();
+//test2.append('<span> </span>')
+test2.each(function(){
+	var t=$(this),index=t.index();
+	t.css('top',Number(t.css('top').split('px')[0])*2);
+	t.css('left',Number(t.css('left').split('px')[0])*2);
+})
+
+</script>
+</body>
+</html>

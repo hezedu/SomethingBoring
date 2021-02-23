@@ -1,0 +1,26 @@
+{
+  "name": "vue-pdf-preview",
+  "version": "0.0.3",
+  "main": "pdf-preview.vue",
+  "peerdependencies": {
+    "webpack": ">=2.x",
+    "vue": "*",
+    "vuex": "*"
+  },
+  "keywords": [
+    "vue",
+    "vuex",
+    "use",
+    "must call"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hezedu/SomethingBoring/tree/master/pdf-preview-project/src/pdf-preview"
+  },
+  "author": {
+    "name": "Du Wei"
+  },
+  "license": "MIT",
+  "email": "tianxiazhizhong@gmail.com",
+  "description": "pdf-preview"
+}

@@ -1,0 +1,24 @@
+{
+  "name": "SomethingBoring",
+  "version": "1.0.0",
+  "description": "一些无聊的东西 ### cachelist 一套主动清浏览器 http 缓存的架构图。Who care http cache? ### log-master log-master 用的图片 ### pay 二维码图片（linux-remote 用） ### firefox-problem.md 火狐浏览器大文件分片加载缓存问题。 ### isDie.js 进程守护(loop)",
+  "main": "isDie.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hezedu/SomethingBoring.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hezedu/SomethingBoring/issues"
+  },
+  "homepage": "https://github.com/hezedu/SomethingBoring#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}

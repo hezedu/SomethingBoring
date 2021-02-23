@@ -1,0 +1,86 @@
+html
+  style.
+    button{margin:10px;}
+  body
+    button#test test
+    button#test3 复位
+    button#test4 replaceState
+    #test2(style='border:1px solid yellow;height:400px;width:400px')
+    script(src='http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.1.min.js')
+    script.
+      //history.pushState
+      //onpopstate
+      //replaceState
+      var test = $('#test');
+      var test2 = $('#test2');
+      var test3 = $('#test3');
+      var test4 = $('#test4');
+      var count =0;
+      test.click(function(){
+        location.hash=Date.now();
+        //history.pushState(count, 'test'+count, '/#'+Date.now());
+        count++;
+        });
+      $(window).on("hashchange", function() {
+         alert('hashchange')
+        });
+      if (history && history.pushState) {
+           $(window).bind("popstate", function(e){
+            alert("popstate")
+              console.log(e);
+              console.log("history.state=");
+              console.log(JSON.stringify(history));
+              test2.html(location.toString());
+              count--;
+           });
+           }
+           test3.click(function(){
+            location='/test'
+            });
+      test4.click(function(){
+        history.replaceState(count, 'test'+count, '/'+Date.now());
+        })
+        //-   $.get("/",{test:true},function(data,status){
+        //- alert("数据：" + data + "\n状态：" + status);
+        //-     });
+
+        var _index = function(i, t, count, parents){
+          this.index = i;
+          this._parent = parents;
+        }
+        _index.prototype.parent = function(){
+          var p=this._parent;
+          return new _index(p[0],p[1],p[2],p[3]);
+        }
+
+          var test = new _index(1,2,3,[4,5,6,[7]]);
+          console.log("test.index=");
+          console.log(test.index);
+          var p = test.parent();
+          console.log("p.index=");
+          console.log(p.index);
+      //- var test = $('#test');
+      //- console.log('aaaaa');
+      //- $.get("/i/icon.svg",function(a,b){
+          
+      //-   var layer_1 = $('#layer_1');
+      //-   var svg = $(a).children().eq(0);
+      //-   var svgC=svg.children();
+      //-   var svgC0=svgC.eq(0);
+      //-   svg.empty();
+      //-   svg.html(svgC0);
+      //-   console.log(svgC0.attr())
+
+
+
+      //-   var svg_html = svg.prop('outerHTML');
+      //-   //- svg_html = "<svg>"+svg_html+"</svg>";
+      //-   //- console.log("svg_html==");
+      //-  console.log(svg_html);
+
+      //-   var b64 = 'data:image/svg+xml;base64,'+window.btoa(svg_html);
+      //-   var url = 'url("' + b64 + '")';
+
+      //-    //test.css('backgroundImage',url);
+
+      //- });

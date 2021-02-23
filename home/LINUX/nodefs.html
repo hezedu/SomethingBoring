@@ -1,0 +1,315 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	 <style>
+*{margin:0;padding:0}
+body{font-family:"宋体";font-size:12px}
+h1{color:#999;}
+.dw_fileico , .nodefs_anniu{background:url("./I/common.png") -500px -500px no-repeat}
+.dw_file{cursor:pointer;}
+.dw_mulu , .dw_mulu2 , .dw_muluempty{color:blue;}
+.dw_weizhi{color:#999;}
+#fileTree{width:20%;height:95%;overflow:auto;position:fixed;bottom:0;left:0}
+#fileshow{width:80%;float:right;}
+#filehead{height:28px;padding:1px 0;width:100%;background:orange;position:fixed;top:0;left:0}
+#nodefs_lujing_go{float:left;margin-left:5px;height:28px;width:28px;background-position:-88px -77px}
+.nodefs_anniu{width:28px;height:28px;float:left;margin:0 5px;cursor:pointer}
+.nodefs_anniu.back{background-position:-29px -91px;}
+.nodefs_anniu.back.on{background-position:-29px -120px;}
+.nodefs_anniu.top{background-position:-58px -91px;}
+.nodefs_anniu.top.on{background-position:-58px -120px;}
+.nodefs_anniu.go{background-position:0 -91px;}
+.nodefs_anniu.go.on{background-position:0 -120px;}
+.nodefs_anniu:hover{background-color:yellow}
+.nodefs_anniu:hover.on{background-color:orange;cursor:default}
+.nodefs_lujing{height:100%;float:left;width:500px;float:left;font-size:14px;color:#666}
+#fileTree .dw_file{min-height:14px;margin-top:2px;white-space:nowrap;}
+#fileTree .dw_fileico{display:inline-block;width:18px;height:14px;margin-right:3px;line-height:14px;text-align:center;color:#666}
+#fileTree .dw_filename{display:inline-block;height:14px;line-height:14px;} 
+#fileTree .dw_filename:hover{text-decoration: underline;color:darkblue}
+#fileTree .dw_mulu .dw_fileico{background-position:0 -76px}
+#fileTree .dw_mulu2 .dw_fileico{background-position:-38px -76px}
+#fileTree .dw_muluempty .dw_fileico{background-position:-19px -76px}
+#fileTree .dw_fileico.on{background-position:-57px -76px}
+#fileTree .dw_file2{margin-left:19px;display:none;clear:both}
+#fileTree .dw_file2.on{display:block}
+
+.fileshow_defult .dw_file{width:80px;height:74px;line-height:1;
+float:left;overflow:hidden;margin:5px;text-align:center;}
+.fileshow_defult .dw_fileico{width:100%;height:50px;background-position:-405px 0}
+/*.fileshow_defult .dw_file_img{vertical-align:middle;}
+.fileshow_defult .dw_fileico .dw_file_img{max-width:100%;max-height:100%;}*/
+.fileshow_defult .dw_XXX .dw_fileico{background-position:-162px 0}
+.fileshow_defult .dw_tupian .dw_fileico{background-position:-162px -76px;}
+.fileshow_defult .dw_muluempty .dw_fileico{background-position:0 0}
+.fileshow_defult .dw_weizhi .dw_fileico{background-position:-243px 0;color:#aaa}
+.fileshow_defult .dw_mulu .dw_fileico{background-position:-81px 0;}
+.fileshow_defult .dw_mulu2 .dw_fileico{background-position:-324px 0;}
+.fileshow_defult .dw_file:hover , .fileshow_defult .dw_file:hover .dw_filename
+{overflow:visible;background:dodgerblue;word-break:break-all;}
+
+
+	 </style>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.10.0.min.js"></script>
+<div id="filehead">
+<div class="nodefs_anniu back on"></div>
+<div class="nodefs_anniu top on"></div>
+<div class="nodefs_anniu go on"></div>
+<input type="text" class="nodefs_lujing" id="nodefs_lujing" />
+<div  class="nodefs_anniu" id="nodefs_lujing_go"></div>
+	 </div><div style="height:5%"></div>
+	 <div id="fileTree">
+<div  class="dw_file dw_mulu">
+<div class="dw_fileico"></div>
+<div  class="dw_filename">/</div>
+<div class="dw_file2 on"></div>
+</div>
+	 </div>
+<div id="fileshow" class="fileshow_defult">
+	 </div>
+<script>
+var filetree=$("#fileTree"),fileshow=$("#fileshow"),
+head=$("#filehead"),fileroot=$("#fileroot"),
+head_c=head.children(),back=head_c.eq(0),xiangS=head_c.eq(1),go=head_c.eq(2),lujing=head_c.eq(3),
+back_arr=[],go_arr=[],HASH,DOM,INDEX,ban=0,TREEGAOLIAN,isSHOW=false;
+//init
+$(function(){
+var treeH=document.body.clientHeight-head.outerHeight(true);
+filetree.height(treeH);
+ban=treeH/2;
+tongYi();
+});
+//initend
+function haxi(){
+	return location.hash.substr(1) || "/";
+}
+function lu_jing(){
+	lujing.val(HASH);
+	if(HASH=='/'){
+		xiangS.addClass('on');
+	}else{
+		xiangS.removeClass('on');
+	}  
+}
+
+function kgon(){
+	 function a(a,arr){
+		if(!arr.length){
+			a.addClass('on');
+		}else{
+			a.removeClass('on');
+			}
+	 }
+	 a(back,back_arr);
+	 a(go,go_arr);
+}
+kgon();
+	 
+function jiantouClick(th,th_arr,other_arr){
+	var t=$(th);
+	if(t.hasClass('on')){
+		return;
+	}
+	var po=th_arr.pop();
+	other_arr.push(HASH);
+	//alert(th_arr+'<br/>'+other_arr);
+	kgon();
+	location.hash=po;
+	tongYi();
+};
+	 
+	 
+back.click(function(){
+	 jiantouClick(this,back_arr,go_arr);
+	 });
+go.click(function(){
+	 jiantouClick(this,go_arr,back_arr);
+	 });
+xiangS.click(function(){
+	var t=$(this);
+	if(t.hasClass('on')){
+		return;
+	}
+	go_arr=[];
+	back_arr.push(HASH);
+	kgon();
+	var ls=HASH.lastIndexOf('/')||1;
+	location.hash=HASH.substr(0,ls);
+	tongYi();
+});
+$('#nodefs_lujing_go').click(function(){
+	 var v=$(this).prev().val();
+	 if(v==HASH){
+		return;
+	 }
+	 back_arr.push(HASH);
+	 go_arr=[];
+	 kgon();
+	 location.hash=v;
+	 tongYi();
+	});
+ keys('nodefs_lujing','nodefs_lujing_go');
+///////////////////////////////////	 
+function fileGet(th,b){
+	
+	th=$(th);
+	var tp=th.parent();
+	if(tp.attr('id')=='fileshow'){
+		var b=th.children('.dw_filename').text(),
+		d=tree_get(HASH+'/'+b,filetree)[1],
+		index=duyiwuer(d,b,function(){
+		return this.children('.dw_filename').text();
+		}); 
+		//alert(d.html()+'\n'+index+'\n'+b);
+		isSHOW=true;
+		d.children().eq(index).children('.dw_filename').click();
+	}else{
+	 back_arr.push(HASH);
+	 go_arr=[];
+	 kgon();
+			
+			th.css({'background':'yellow','color':'red'});
+			if(TREEGAOLIAN){
+			TREEGAOLIAN.css({'background':'none','color':'blue'});	
+			}
+			TREEGAOLIAN=th;
+			 
+	 location.hash=b;
+	 tongYi(th);
+	 }
+}
+	 function file_show(t,dir){
+	var myWindow=window.open('');
+
+	 var html='<img  src="'+dir+'"/>';
+	 	myWindow.document.write(html);
+	
+	 //fileshow.html(html);
+	 } 
+///////////////////////////////////	 
+function fileicoClick(a){
+	a=$(a);
+	var nn=a.next().next();
+	if(nn.html()){
+	On(a);
+	On(a.next().next());
+	}else{
+	a.next().click();
+	}
+}
+function On($a,on){
+	on=on || 'on';
+	var b=$a.hasClass(on);
+	b && $a.removeClass(on);
+	!b && $a.addClass(on);
+}
+function duyiwuer(a,v,fn){
+	var ac=a.children(),index=-1;
+	
+	ac.each(function(){
+	var t=$(this);
+	//alert(v+'---------'+fn.call(t));
+		if(fn.call(t)==v){
+			index=t.index();
+			return;
+		}
+	});
+	return index;
+}
+function tongYi($th){
+
+	HASH=haxi();
+	lu_jing();
+	var path='';
+	if($th){
+	path="/remote"+HASH;
+	var tp=$th.parent();
+	$.get(path,function(a,b){
+		a=a.split('--||GODMOD||--');
+		if(tp.attr('id')!='fileshow'){
+		if(a[0]){
+			var t=$th.next(),t2=$th.prev();
+
+			
+			
+
+
+			t.html(a[0]);
+			t.addClass("on");
+			t2.addClass("on");
+			
+
+			
+			
+	 }
+	 				 if(isSHOW){
+	 //var p4=getElementPos($th[0]);
+	  filetree.scrollTop(0);
+	  filetree.scrollLeft(0);
+	 var p1=$th.position().top;
+	 var p2=$th.position().left;
+			filetree.scrollTop(p1-ban);
+			filetree.scrollLeft(p2);
+			//alert(p4.y+'===p1=='+p1);
+			isSHOW=false;
+			}
+	 }
+		fileshow.html(a[1]);
+	});
+	}else{
+	
+	var treeh=tree_get(HASH,filetree);
+	path="/remote"+HASH;
+	//if(treeh[0] !=''){
+	var path2="/remote_tree"+HASH+"?"+treeh[0];
+		
+			$.get(path,function(a,b){
+		a=a.split('--||GODMOD||--');
+		a=a[1] || a[0];
+		fileshow.html(a);
+	});
+		
+		$.get(path2,function(a,b){
+		//DOM=treeh[1];
+		treeh[1].html(a);
+		//alert(treeh[1].parent().html())
+	});
+//}
+
+
+}
+
+}
+function keys(a,b){
+function keyUp(e) {
+           var currKey=0,e=e||event;
+            currKey=e.keyCode||e.which||e.charCode;
+  if(currKey==13){
+ document.getElementById(b).click();
+ }
+          }
+   document.getElementById(a).onkeydown = keyUp;
+}
+
+function tree_get(dir,$dom){
+	var sp='/';
+	dir=dir.split(sp);
+	var len=dir.length,spdir='' , i=0;
+	
+	
+	for(i=0;i<len;i=i+1){
+		var pp = (dir[i]=='') ? '/' : dir[i];
+		spdir+=sp+dir[i];
+		var index=duyiwuer($dom,pp,function(){
+			return this.children('.dw_filename').text();
+		});
+		//alert(index);
+		if(index==-1 || i==len-1){
+				var quer=dir.slice(i).join(sp);
+				
+				return [quer,$dom];
+		}else{
+			$dom=$dom.children().eq(index).children().last();
+			$dom.addClass('on');
+		}
+	}
+}
+</script>

@@ -1,0 +1,123 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style>
+
+#show{background-color: yellow;color: red;width:400px;height: 400px;font-size: 18px;font-weight: bold;}
+#title{min-height: 30px;}
+button{height: 50px;margin: 10px;font-size: 25px;font-weight: bold;}
+</style>
+<script src="jquery211.js"></script>
+</head>
+<body>
+<button onclick="_parent()">parent</button>
+<br/>
+<button onclick="_call()">call</button>
+
+<button onclick="_f()">new f</button>
+
+<button onclick="_protoChild()">__proto__</button>
+<br/>
+<button onclick="_protoChildCall()">__proto__+call</button>
+<h1 id = 'title'></h1>
+<pre id = 'show'> </pre>
+<script>
+var title = $('#title');
+var show = $('#show');
+
+function parent(){
+    this.one = 1;
+    this.two = 2;
+}
+parent.prototype.min = function(){
+    this.three = 3;
+    return JSON.stringify(this);
+}
+
+
+
+//call 只能访问函数内属性
+function callChild(){
+  parent.call(this);
+}
+
+//new f方法 中间夹了一个空函数
+function fChild(){
+  test='dddddddddddd'
+};
+function f(){};
+
+fChild.prototype.test = 'fChild test';
+f.prototype = parent.prototype;
+
+fChild.prototype = new f;
+
+
+
+
+
+//__proto__ 最新方法
+function protoChild(){
+  test='protoChildCall 内部性性'
+}
+
+protoChild.prototype.test = 'protoChildCall test';
+
+protoChild.prototype.__proto__ = parent.prototype;
+
+
+parent.prototype.test = 'test';
+//__proto__ + call 方法
+function protoChildCall(){
+  parent.call(this);
+}
+
+
+
+protoChildCall.prototype.__proto__ = parent.prototype;
+
+
+
+
+//click 事件
+function Out(a,b){
+  var text = 'call 只能访问函数内属性';
+    try{
+      text = a.min();
+      if(!a.one){
+        text+='\n原型继承不能继承内部属性'
+      }
+    }catch(e){
+
+    }
+    console.log(a.test)
+    show.text(JSON.stringify(a)+'\nthis==\n'+text+'\nprototype 测试==\n'+a.test);
+}
+
+function _call(){
+    var a = new callChild();
+    Out(a)
+}
+
+function _f(){
+    var a = new fChild();
+    Out(a);
+    show.text(show.text()+'\n\n细微差别:必须在声明继承后声明原型属性.\n否则继承后将会覆盖掉之前属性.\n__proto__则不会.')
+}
+function _parent(){
+    var a = new parent();
+    Out(a)
+}
+function _protoChild(){
+    var a = new protoChild();
+    Out(a);
+}
+
+function _protoChildCall(){
+    var a = new protoChildCall();
+    Out(a);
+}
+
+</script>
+</body>
+</html>

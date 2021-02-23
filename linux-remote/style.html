@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+
+    <title>Linux Remote</title>
+    <style>
+      .img, .img2{
+        background-image: url("fe-unfocus.png");
+        background-size: contain;
+        background-repeat: no-repeat;
+        width: 100px;
+        height: 100px;
+        margin: 100px auto;
+        position: absolute;
+        font-size: 80px;
+        text-align: center;
+        line-height: 100px;
+        left: 0;
+        right: 0;
+        top: 100px;
+        margin: auto;
+        position: relative;
+      }
+      .img::after{
+        content: '';
+        display: block;
+        position: absolute;
+        background: inherit;
+        top: 0;
+        left: 0;
+        right: 0;
+         bottom: 0;
+        z-index: 2;
+        filter: url(#iconmask);
+      }
+      .img3, .img4{
+        background-repeat: no-repeat;
+        background-image: url("fe-focus.png");
+        width: 100px;
+        height: 100px;
+        background-size: contain;
+        top: 220px;
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: auto;
+      }
+      .img4{
+        background-image: url("fe-unfocus.png");
+        top: 320px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="img-wrap">
+      <svg viewBox="0 0 600 400" width="0" height="0" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <defs>
+              <filter id="iconmask">
+                  <feColorMatrix in="SourceGraphic"
+                      type="matrix"
+                      values="0.54     0     0     0     0
+                      0     0     0     0     0
+                      0     0     0     0     0
+                      0     0     0     .6     0" />
+
+              </filter>
+              <filter id="iconmaskimg" style="background-image: url(filetermask.png);">
+                <feTile in="BackgroundImage" x="0" y="0"
+                    width="2" height="2" />
+                <feTile/>
+              </filter>
+              
+          </defs>
+      </svg>
+  
+  <!-- <figure>
+      <img class="img img--1" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/85648/saffy_400px.jpg" alt="Fluffy cat">
+      <figcaption>Greyscale, with blue added to the alpha channel</figcaption>
+  </figure>
+  <figure>
+      <img class="img img--2" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/85648/saffy_400px.jpg" alt="Fluffy cat">
+      <figcaption>Only red and blue in all channels (no green). Negative values in alpha channel to darken the dark areas.</figcaption>
+  </figure>
+  <figure>
+      <img class="img img--3" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/85648/saffy_400px.jpg" alt="Fluffy cat">
+      <figcaption>Red channel values are equal at 100%, blue channel has 100% blue, so the image is greyscale with a blue-ish tinge</figcaption>
+  </figure>
+  <figure>
+      <img class="img img--4" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/85648/saffy_400px.jpg" alt="Fluffy cat">
+      <figcaption>Less red than other colours in red, green and blue channels</figcaption>
+  </figure>
+  <figure>
+      <img class="img img--5" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/85648/saffy_400px.jpg" alt="Fluffy cat">
+      <figcaption>The dark parts are colorized using the multiplier channel, the light parts use red and green added to the red and green channels</figcaption>
+  </figure>
+  <figure>
+      <img class="img img--6" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/85648/saffy_400px.jpg" alt="Fluffy cat">
+      <figcaption>Blown-out blue channel with remaining channels colorized</figcaption>
+  </figure> -->
+</div>
+    <div class="img">A</div>
+    <!-- <div class="img2"></div> -->
+    <div class="img3"></div>
+    <div class="img4">ABC</div>
+</body>
+</html>

@@ -1,0 +1,54 @@
+extends ./layout.jade
+html
+  body
+    style.
+      body{font-family:'Courier new','微软雅黑';font-size:14px}
+      a{color:blue;}
+      .mod_div{width:300px;height:180px;float:left;}
+      .mod_div.on{opacity:0.5;filter:alpha(opacity=50)}
+      .mod{width:280px;height:150px;border:1px solid #666;display:block;padding:5px;margin:5px;
+      line-height:75px;border-radius:5px;font-size:25px;text-decoration:none;text-align:center}
+      .mod:hover{background:cornsilk;color:dodgerblue;}
+      .miaosu{color:#999;font-size:14px;display:block;line-height:32px}
+      .mod_bottom{padding:0 15px;font-size:12px;color:skyblue}
+      .mod_bottom a{color:skyblue;}
+    title godMod
+    div(style='width:600px;margin:70px auto')
+      div(style="text-align:center")
+        b(style='font-size:50px;') GodMod
+        |  nodejs
+      br
+      div
+        .mod_div
+          a.mod(href='/nodefs')
+            | nodefs
+            br
+            span.miaosu 远程文件管理
+        .mod_div
+          a.mod(href='/zupu')
+            | JS族谱(zuPu)
+            span.miaosu JS的强力的var_dump()
+          .mod_bottom
+            //a(href='https://github.com/hezedu/zuPu', target='_blank') github
+        //-.mod_div.on
+          a.mod
+            | X!!(JS编辑器)
+            span.miaosu
+              | 前端制作的前端利器!
+              br
+              | (未完成)
+          .mod_bottom
+      div(style='clear:both')
+      div(style='float:right;margin-top:500px;line-height:1.3')
+        | 作者:hezedu
+        br
+        span(style='font-size:12px;padding-left:20px;color:dodgerblue') 联系我
+        div(style='font-size:12px;padding-left:20px;color:#666')
+          | email:hezedu@hotmail.com
+          br
+          | tianxiazhizhong@gmail.com
+          br
+      div(style="float:left;margin-top:500px")
+        | 友情链接
+        br
+        a(href="http://www.liuhaiming.me/") 寻梦的尕柳
