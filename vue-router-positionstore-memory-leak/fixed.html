@@ -4,24 +4,17 @@
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>Fixed: vue-router positionStore memory leak</title>
+    <title>[Fixed]vue-router positionStore memory leak</title>
     <style>
       html, body{
         margin: 0;
         padding: 0;
-        height: 1000%;
+      }
+      body{
+        padding: 10px;
       }
       button{
         font-size: 20px;
-        padding: 10px;
-      }
-      .wrap{
-        display: flex;
-        justify-content: space-around;
-      }
-      .wrap > div{
-        width: 48%;
-        background-color: #eee;
         padding: 10px;
       }
     </style>
@@ -32,84 +25,54 @@
   
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
   <!-- <script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.js"></script> -->
-  <script src="./vue-router@3.4.9_m_1734_fixed.js"></script>
+  <script src="./vue-router@3.5.1_m_1793.js"></script>
     <script>
-    function genPage(){
+    function genPage(isBack){
       
       return {
         template: `<div>
-          <h1>Fixed vue-router positionStore memory leak</h1>
-          <p>Click the button below continuously</p>
-          <button @click="back">back</button>
-          <button @click="push()">push</button>
-          <button @click="push(true)">replace</button>
-          <button @click="forward">forward</button>
+          <h1>[Fixed]: <a href="./index.html">vue-router positionStore memory leak</a></h1>
+          <p>Click the push multiple times, then click back, and then click push.<br>
+            
+          </p>
+          <button @click="push">push</button>
+          <button @click="back">Back</button>
           
           <hr />
-          <h3>Current history.state.key: {{currStateKey}}</h3>
-          <div class="wrap">
-            <div>
-              <h2>PositionStore</h2>
-              
-              <ol>
-                <li v-for="(v, k) in map">
-                  <b>{{k}}: {{v}}</b>
-                </li>
-                </ol>
-            </div>
-            <div>
-              <h2>Custom Store(useful to me)</h2>
-              
-              <ol>
-                <li v-for="(v, k) in map">
-                  <b>{{k}}: {{v}}</b>
-                </li>
-                </ol>
-            </div>
+
+          <div style="background: #eee; padding: 10px">
+            <h2>PositionStore</h2>
+            
+            <ol>
+              <li v-for="(v, k) in map">
+                <b>{{k}}: {{v}}</b>
+              </li>
+              </ol>
+
           </div>
+
+          <small>Modified one line of code in the vue-router.js: Expose positionStore as window.vueRouterPositionStore.</small>
         </div>`,
         data() {
           return {
-            currStateKey: '',
-            map: {},
-            customMap: {}
+            isBack,
+            map: window.vueRouterPositionStore
           }
         },
         watch: {
-          $route(newVal){
-            this.setMap();
+          $route(){
+            const obj = {};
+            Object.assign(obj, window.vueRouterPositionStore);
+            this.map = obj;
           }
         },
         methods: {
-          setMap(){
-            const map = {};
-            Object.assign(map, window.vueRouterPositionStore);
-            this.map = map;
-            if(window.history.state){
-              this.currStateKey = window.history.state.key;
-            }
-            
-          },
-          forward(num){
-            this.$router.forward();
-          },
           back(){
             this.$router.back();
           },
-          push(isReplace){
-            const url = '/?t=' + Date.now()
-            if(isReplace){
-              this.$router.replace(url);
-              return;
-            }
-            this.$router.push(url);
-          },
-          setData(){
-            this.$router.setData('Hello', 'world!');
+          push(){
+            this.$router.push('/t' + Date.now());
           }
-        },
-        created(){
-          this.setMap();
         }
       }
     }
@@ -120,13 +83,9 @@
     }
 
     const router = new window.VueRouter({
-      scrollBehavior (to, from, savedPosition) {
-      // return 期望滚动到哪个的位置
-      console.log('savedPosition', savedPosition)
-      return savedPosition;
-    },
       routes: [
-        { path: '/', component: genPage() }
+        { path: '/', component: genPage(false) },
+        { path: '/:id', component: genPage(true) },
       ]
     });
     
@@ -137,9 +96,6 @@
 
     router.onReady(() => {
       app.$mount('#app');
-    })
-    window.addEventListener('popstate', function(e){
-      console.log('popstate', e)
     })
     </script>
 </body>

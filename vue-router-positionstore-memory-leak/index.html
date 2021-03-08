@@ -10,6 +10,9 @@
         margin: 0;
         padding: 0;
       }
+      body{
+        padding: 10px;
+      }
       button{
         font-size: 20px;
         padding: 10px;
@@ -22,16 +25,16 @@
   
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
   <!-- <script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.js"></script> -->
-  <script src="./vue-router@3.4.9_m_1734.js"></script>
+  <script src="./vue-router@3.5.1_m_1791.js"></script>
     <script>
     function genPage(isBack){
       
       return {
         template: `<div>
-          <h1>vue-router positionStore memory leak</h1>
-          <p>Click the button below continuously</p>
-          <button v-if="isBack" @click="back">Back</button>
-          <button v-else @click="push">push</button>
+          <h1>vue-router positionStore memory leak.</h1>
+          <p>Click the push multiple times, then click back, and then click push.</p>
+          <button @click="push">push</button>
+          <button @click="back">Back</button>
           <hr />
 
           <div style="background: #eee; padding: 10px">
@@ -44,6 +47,9 @@
               </ol>
 
           </div>
+
+          <small>
+            Modified one line of code in the vue-router.js: Expose positionStore as window.vueRouterPositionStore.</small>
         </div>`,
         data() {
           return {
@@ -51,12 +57,19 @@
             map: window.vueRouterPositionStore
           }
         },
+        watch: {
+          $route(){
+            const obj = {};
+            Object.assign(obj, window.vueRouterPositionStore);
+            this.map = obj;
+          }
+        },
         methods: {
           back(){
             this.$router.back();
           },
           push(){
-            this.$router.push('/b');
+            this.$router.push('/t' + Date.now());
           }
         }
       }
@@ -70,7 +83,7 @@
     const router = new window.VueRouter({
       routes: [
         { path: '/', component: genPage(false) },
-        { path: '/b', component: genPage(true) },
+        { path: '/:id', component: genPage(true) },
       ]
     });
     
