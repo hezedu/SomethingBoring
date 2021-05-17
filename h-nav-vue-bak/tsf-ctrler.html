@@ -77,6 +77,10 @@
       transition-property: none!important;
       animation-name: none!important;
     }
+    .h_will_cleared{
+      transition: none!important;
+      animation:  none!important;
+    }
     
   </style>
   <title>Height</title>
@@ -92,6 +96,8 @@
     <button @click="backPage1" :disabled="Object.keys(map).length !== 2">backPage 1</button>
     <button @click="backPage1Renew" :disabled="Object.keys(map).length !== 2">backPage1Renew</button>
     <button @click="backPage1Replace" :disabled="Object.keys(map).length !== 2">backPage 1 Replace</button>
+
+    <button @click="cleanPage2" :disabled="!map[2]">Clean Page 2</button>
     <div class="wrap">
 
       <transition 
@@ -100,8 +106,8 @@
       :appear="true" 
       v-for="v in map" 
       :key="v.id">
-        <div class="handle" :key="v.id" v-if="v.isLoad">
-          <transition name="h-page" :appear="true" >
+        <div class="handle" :class="{h_will_cleared: v.willCleared}" :key="v.id" v-if="v.isLoad">
+          <transition name="h-page" :appear="true">
             <cmptbox v-show="v.isActive" :isload="v.isLoad" :v="v" :key="v.id"   />
           </transition>
         </div>
@@ -221,6 +227,15 @@
             
 
           },
+          cleanPage2(){
+            const page = this.map[2];
+            page.willCleared = true;
+            this.$nextTick(() => {
+              page.isLoad = false;
+              this.$delete(this.map, 2);
+            })
+
+          },
           clearAfter(key){
             const map = this.map;
             let i;
@@ -265,6 +280,7 @@
         return {
           id: _genId(),
           isLoad: true,
+          willCleared: false,
           isActive: true
         }
       }
