@@ -59,12 +59,14 @@
     }
 
     .h-page-enter-active,.h-page-leave-active{
-      transition: all 3s ease;
+      transition: all 30s ease;
     }
+  
     .h-page-enter, .h-page-leave-to{
       left: 500px;
       top: 200px;
     }
+
     .handle {
       width: 0!important;
       height: 0!important;
@@ -107,8 +109,17 @@
       v-for="v in map" 
       :key="v.id">
         <div class="handle" :class="{h_will_cleared: v.willCleared}" :key="v.id" v-if="v.isLoad">
-          <transition name="h-page" :appear="true">
-            <cmptbox v-show="v.isActive" :isload="v.isLoad" :v="v" :key="v.id"   />
+          <transition name="h-page" :appear="true" 
+            @enter="handleEnter" 
+            @before-enter="handleBeforeEnter2" 
+            @enter-cancelled="handleEnterCancelled" 
+            @after-enter="handleAfterEnter"
+            
+            @leave="handleLeave" 
+            @before-leave="handleBeforeLeave" 
+            @leave-cancelled="handleLeaveCancelled" 
+            @after-leave="handleAfterLeave">
+            <cmptbox v-show="v.isActive" :isload="v.isLoad" :v="v" :key="v.id" :style="v.styles"  />
           </transition>
         </div>
       </transition>
@@ -163,6 +174,65 @@
           }
         },
         methods: {
+          handleLeave(){
+            console.log('---------------- handleLeave --------------')
+          },
+          handleBeforeLeave(el){
+            window.requestAnimationFrame(() => {
+              console.log('requestAnimationFrame')
+              el.style.backgroundColor = 'red';
+            })
+            console.log('---------------- handleBeforeLeave --------------')
+          },
+          handleLeaveCancelled(el){
+            el.removeAttribute('style');
+          },
+          handleAfterLeave(el){
+            el.removeAttribute('style');
+          },
+          handleEnter(el){
+            // el.style.backgroundColor = '#fff';
+            console.log('---------------- handleEnter --------------')
+    
+            // this.$nextTick(() => {
+            //   this.map[1].styles = {backgroundColor: "blue"};
+            // })
+     
+          },
+          handleBeforeEnter2(el){
+            console.log('---------------- handleBeforeEnter2 --------------')
+            // this.$nextTick(() => {
+            //   this.map[1].styles = {backgroundColor: "blue"};
+            // })
+            // window.requestAnimationFrame(() => {
+            //   console.log('requestAnimationFrame')
+            //   el.style.backgroundColor = 'blue';
+            // })
+            el.style.backgroundColor = 'blue';
+              window.requestAnimationFrame(() => {
+              console.log('requestAnimationFrame')
+              el.removeAttribute('style');
+              const baseStyle = {zIndex: 123};
+              setStyle(el, baseStyle);
+            })
+            // setTimeout(() => {
+            //   this.map[1].styles = {backgroundColor: "blue"};
+            // })
+            // this.$nextTick(() => {
+            //   this.map[1].styles = {backgroundColor: "blue"};
+            // })
+            // el.style.backgroundColor = 'red';
+          },
+          handleEnterCancelled(el){
+            el.removeAttribute('style');
+            console.log('handleEnterCancelled')
+          },
+          handleAfterEnter(el){
+            console.log('handleAfterEnter')
+            el.removeAttribute('style');
+            // el.style.backgroundColor = 'yellow';
+          },
+
           switchShow(){
             this.isShow = !this.isShow;
           },
@@ -237,15 +307,18 @@
 
           },
           clearAfter(key){
-            const map = this.map;
-            let i;
-            for(i in map){
-              console.log('i', i, i > key, Number(i) > key);
-              if(Number(i) > key){
-                this.$delete(map, i);
+            this.$nextTick(() => {
+              const map = this.map;
+              let i;
+              for(i in map){
+                console.log('i', i, i > key, Number(i) > key);
+                if(Number(i) > key){
+                  this.$delete(map, i);
+                }
               }
-            }
-            console.log('map clearAfter', map);
+              console.log('map clearAfter', map);
+            })
+   
           },
           switchActivePage(){
             let page = this.map[1];
@@ -281,9 +354,98 @@
           id: _genId(),
           isLoad: true,
           willCleared: false,
-          isActive: true
+          isActive: true,
+          styles: '',
+          transition: {
+            duration: undefined,
+            leaveActiveClass: 'h-page-leave-active'
+          }
         }
       }
+
+      function pageTransitionHandle(type, behavior, distance, stateKey, pageName){
+        return {
+          // duration: 3000, // number
+          // mode: undefined, replace
+          // type: undefined
+   
+
+
+          activeClass: 'h-page-' + type + '-active',
+          activeStyle: { zIndex: stateKey },
+
+          actionClass: 'h-page-' + type + (type === 'leave' ? '-to' : ''),
+          actionStyle: { backGroundColor:'yellow' },
+
+        }
+
+      }
+
+      function noop() {};
+      function _setPageTransiton(type){
+        const raw = pageTransitionHandle.call(null, arguments);
+        const result = {
+          enterClass: '',
+          enterActiveClass: '',
+          enterToClass: '',
+          beforeEnterFn: noop,
+          enterFn: noop,
+
+          leaveClass: '', 
+          leaveActiveClass: '',
+          leaveToClass: '',
+          beforeLeaveFn: noop,
+          leaveFn: noop,
+
+          styles: ''
+        };
+        _setIfDef(result, 'duration', raw);
+        _setIfDef(result, 'mode', raw);
+        _setIfDef(result, 'type', raw);
+
+        // appearClass unhave will not be added automatically.
+ 
+        if(type === 'enter'){
+          result.enterClass = raw.actionClass;
+          result.enterActiveClass = raw.activeClass;
+          if(raw.actionStyles){
+            result.enterFn = function(){
+              result.styles = raw.actionStyles;
+            }
+          }
+        } else {
+          result.leaveToClass = raw.actionClass;
+          result.leaveActiveClass = raw.activeClass;
+          if(raw.actionStyles){
+            result.leaveFn = function(){
+              result.styles = raw.actionStyles;
+            }
+          }
+        }
+        return result;
+      }
+
+      function _setIfDef(distObj, key, srcObj){
+        const v = srcObj[key];
+        if(v === undefined){
+          return;
+        }
+        distObj[key] = v;
+      };
+
+      function setStyle(el, value){
+        let i = 0, list = Object.keys(value), k,  len = list.length;
+          for(; i < len; i++){
+            k = list[i];
+            el.style[k] = value[k];
+          }
+        // if(typeof value === 'string'){
+        //   el.style.cssText = value;
+        // } else {
+     
+        // }
+      }
+      // clear 全部效果置空 duration 置为 0
     })();
   </script>
 </body>
