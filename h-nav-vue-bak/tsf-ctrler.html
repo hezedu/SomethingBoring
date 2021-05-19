@@ -111,7 +111,7 @@
         <div class="handle" :class="{h_will_cleared: v.willCleared}" :key="v.id" v-if="v.isLoad">
           <transition name="h-page" :appear="true" 
             @enter="handleEnter" 
-            @before-enter="handleBeforeEnter2" 
+            @before-enter="handleBeforeEnter2($event, v)" 
             @enter-cancelled="handleEnterCancelled" 
             @after-enter="handleAfterEnter"
             
@@ -199,8 +199,8 @@
             // })
      
           },
-          handleBeforeEnter2(el){
-            console.log('---------------- handleBeforeEnter2 --------------')
+          handleBeforeEnter2(el, v){
+            console.log('---------------- handleBeforeEnter2 --------------', v)
             // this.$nextTick(() => {
             //   this.map[1].styles = {backgroundColor: "blue"};
             // })
@@ -208,13 +208,14 @@
             //   console.log('requestAnimationFrame')
             //   el.style.backgroundColor = 'blue';
             // })
-            el.style.backgroundColor = 'blue';
-              window.requestAnimationFrame(() => {
-              console.log('requestAnimationFrame')
-              el.removeAttribute('style');
-              const baseStyle = {zIndex: 123};
-              setStyle(el, baseStyle);
-            })
+            v.styles = {backGroundColor: 'blue'};
+            // el.style.backgroundColor = 'blue';
+            //   window.requestAnimationFrame(() => {
+            //   console.log('requestAnimationFrame')
+            //   el.removeAttribute('style');
+            //   const baseStyle = {zIndex: 123};
+            //   setStyle(el, baseStyle);
+            // })
             // setTimeout(() => {
             //   this.map[1].styles = {backgroundColor: "blue"};
             // })
