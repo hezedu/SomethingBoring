@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
+
+  <style>
+    body{
+      height: 100vh;
+      font-size: 16px;
+    }
+    .root {
+      height: 100%;
+      width: 980px;
+      margin: 0 auto;
+      position: relative;
+    }
+    button{
+      font-size: 2em;
+    }
+    .wrap{
+      height: 500px;
+      background-color: #eee;
+      position: relative;
+    }
+    .handle{
+      width: 0;
+      height: 0;
+      position: static;
+    }
+    .box{
+      font-size: 25px;
+      color: #fff;
+      text-align: center;
+      line-height: 50px;
+    }
+    .box , .handle-active{
+      width: 100px;
+      height: 100px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-color: #666;
+    }
+    .box-active{
+      transition-duration: 3s;
+    }
+    .box-enter, .box-leave-to{
+      top: 50%;
+      left: 50%;
+    }
+    .handle-active > .box-active{
+      transition: none;
+      animation: none;
+    }
+    .box-inner {
+      height: 100%;
+      width: 100%;
+    }
+
+    .h-page-enter-active,.h-page-leave-active{
+      transition: all 3s ease;
+    }
+  
+    .h-page-enter, .h-page-leave-to{
+      left: 500px;
+      top: 200px;
+    }
+
+    .handle {
+      width: 0!important;
+      height: 0!important;
+      border: 0!important;
+      margin: 0!important;
+      padding: 0!important;
+      box-shadow: none!important;
+      outline: none!important;
+      position: static!important;
+      transition-property: none!important;
+      animation-name: none!important;
+    }
+    .h_will_cleared{
+      transition: none!important;
+      animation:  none!important;
+    }
+    
+  </style>
+  <title>Height</title>
+</head>
+<body>
+  <div id="demo" class="root">
+    <button @click="toggle">toggle Box</button>
+    <button @click="toggleActive">toggleActive Box</button>
+    
+    <div class="wrap">
+
+      <cmptbox v-if="isBox" :now="now" />
+
+
+    </div>
+
+
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+  <script>
+    (function(){
+
+
+      var CmptBox = {
+        props: ['now'],
+        data(){
+          return {
+            isLoad: true,
+            isActive: true
+          }
+        },
+        watch: {
+          now(){
+            this.isActive = !this.isActive;
+          }
+        },
+        template: `
+        <transition name="h-page">
+          <div class="handle" v-if="isLoad">
+            <transition name="h-page" :appear="true">
+                  <div class="box" v-show="isActive">{{isActive}}</div>
+              </transition>
+            </div>
+          </transition>
+     `,
+        
+        mounted(){
+          console.log('CmptBox mounted', this.isload)
+        },
+        beforeDestroy(){
+          this.isActive = false;
+          console.log('beforeDestory')
+        }
+      }
+      new window.Vue({
+        el: '#demo',
+        components: {
+          cmptbox: CmptBox
+        },
+        data(){
+          return {
+            isBox: true,
+            now: 0
+          }
+        },
+        methods: {
+          toggle(){
+            this.isBox = !this.isBox;
+          },
+          toggleActive(){
+            this.now = this.now + 1;
+            this.$nextTick(() => {
+              this.isBox = false;
+              console.log('nextTick')
+            })
+            console.log('bottom')
+          }
+        }
+      
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -59,7 +59,7 @@
     }
 
     .h-page-enter-active,.h-page-leave-active{
-      transition: all 30s ease;
+      transition: all 3s ease;
     }
   
     .h-page-enter, .h-page-leave-to{
@@ -258,9 +258,7 @@
             currPage.isActive = false;
             this.$nextTick(() => {
               currPage.isLoad = false;
-              this.$nextTick(() => {
-                Object.assign(currPage, _createPage())
-              });
+              Object.assign(currPage, _createPage())
 
             });
 
@@ -310,10 +308,12 @@
           clearAfter(key){
             this.$nextTick(() => {
               const map = this.map;
-              let i;
+              let i, v;
               for(i in map){
                 console.log('i', i, i > key, Number(i) > key);
                 if(Number(i) > key){
+                  v = map[i];
+                  
                   this.$delete(map, i);
                 }
               }
