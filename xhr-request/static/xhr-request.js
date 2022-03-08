@@ -15,15 +15,20 @@ function request(params){
   xhr.addEventListener('load', (e) => {
     console.log('load', e);
   });
-  xhr.addEventListener('loadend', (e) => {
-    console.log('loadend', e);
-  });
   xhr.addEventListener('abort', (e) => {
     console.log('abort', e);
   })
   xhr.addEventListener('error', (e) => {
     console.log('error', e);
   })
+  xhr.addEventListener('progress', (e) => {
+    console.log('error', e);
+  });
+  // 
+  xhr.addEventListener('loadend', (e) => { // load, abort, error 会先执行
+    console.log('loadend', e);
+  });
+
   xhr.open(method, url, true);
   let data = params.data;
   // if(data){
