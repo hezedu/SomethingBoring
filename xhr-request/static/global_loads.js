@@ -4,7 +4,7 @@
   let _id = 0;
   function genId(){
     _id = _id + 1;
-    return 'global_load_' + _id;
+    return '_tmp_global_load_' + _id;
   }
   function getSuffix(url){
     const i = url.lastIndexOf('.');
@@ -13,6 +13,8 @@
     }
     return '';
   }
+
+
 
 
   function globalLoad(url, callback){
@@ -50,13 +52,19 @@
         dom.rel = 'stylesheet';
         dom.href = url;
       }
+    // dom.async = false;
       dom.addEventListener('load', function(){
+        
+        console.log(Date.now(), 'load', typeof currLoadResult);
         item.isSuccess = true;
         item.isStart = false;
+        item.result = currLoadResult;
+        currLoadResult = null;
         item.cbList.forEach(cb => {
           cb(null);
         });
         item.cbList = [];
+        dom.removeAttribute('id');
       });
       dom.addEventListener('error', function(e){
         item.isStart = false;
@@ -88,7 +96,7 @@
         if(isDone){
           return;
         }
-        console.log('globalLoad', url)
+        const item = map[url];
         isDone = error !== null;
         if(isDone){
           oneCallback({
@@ -105,5 +113,19 @@
       })
     })
   }
+
+  // AMD
+  let currLoadResult = null;
+  window.define = function(){
+    const callback = arguments[arguments.length - 1];
+    if(typeof callback === 'function'){
+      currLoadResult = callback();
+      console.log(Date.now(), 'define', typeof currLoadResult);
+    }
+    
+  }
+  window.define.amd = true;
+  // window.require = globalLoads;
+  // SIMPLE AMD
   window.globalLoads = globalLoads;
 })();
