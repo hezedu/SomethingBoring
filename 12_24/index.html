@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- <link rel="icon" type="image/svg+xml" href="/vite.svg" /> -->
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <style>
+      html, body {
+        padding: 0;
+        margin: 0;
+      }
+      .canvas_wrap {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      background-image: url('OHR.ThosegharWaterfalls_ZH-CN9371597122_1920x1080.jpg');
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
+    #myCanvas {
+      position: absolute;
+      z-index: 3;
+      left: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      background: none;
+    }
+
+    .canvas_wrap_img {
+      position: absolute;
+      z-index: 2;
+      left: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .completeInfo{
+      position: absolute;
+      z-index:10;
+      left: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      display: none;
+      font-size: 100px;
+      text-align: center;
+      line-height: 200px;
+      color: red;
+      pointer-events: none;
+    }
+    </style>
+    <script src="confetti.js"></script>
+        <script src="jquery3.7.1.js"></script>
+        <script src="jquery.eraser.js"></script>
+    <title>Data Bind Dom</title>
+  </head>
+  <body>
+    <div id="wrap" class="canvas_wrap">
+      <div id="completeInfo" class="completeInfo">Complete!</div>
+      <canvas id="myCanvas"></canvas>
+      <img id="myImg" class="canvas_wrap_img" src="gray.png" />
+    </div>
+    
+    <script src="index_p.js"></script>
+  </body>
+</html>
