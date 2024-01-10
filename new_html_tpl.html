@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHN0eWxlPSJiYWNrZ3JvdW5kOiAjMDAwIiAgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGV4dCBmaWxsPSIjZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB5PSIxNyIgeD0iMTYiIGZvbnQtc2l6ZT0iMjQiIGZvbnQtZmFtaWx5PSJBcmlhbCIgc3R5bGU9ImxpbmUtaGVpZ2h0OiAxIj5EPC90ZXh0Pjx0ZXh0IGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIHk9IjMxIiB4PSIxNiIgZm9udC1zaXplPSIyNCIgZm9udC1mYW1pbHk9IkFyaWFsIiBzdHlsZT0ibGluZS1oZWlnaHQ6IDEiPmV2PC90ZXh0Pjwvc3ZnPg==" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Data Bind Dom</title>
+    <style>
+      .xml_div{
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 id="h1"></h1>
+
+    <!-- abc -->
+    <input  id="input" accesskey="c" capture="user" tabindex="0" />
+<script>
+  (function(){
+
+  
+  const text = 
+`div
+  h1 title="abc abc" :tabIndex="abc" @click="handleClick" # 这是一个
+    # 文本
+  div # hello
+    # world
+    {{abc}}
+  MyFirstCmpt
+`;
+const reg = /"([\s\S]*?)"/g;
+    const valueMark = '_D_B_D_V_A_L_U_E_';
+    const valueMarkLen = valueMark.length;
+  function warpValue(index) {
+    return valueMark + index.toString()
+  }
+  function parse(_str){
+    const valueMap = new Map;
+    let i = 0;
+    let str = _str.replaceAll(reg, (mstr) => {
+      i = i + 1;
+      let k = i.toString();
+      valueMap.set(k, mstr.substring(1, mstr.length - 1));
+      return valueMark + k;
+    });
+     let arr = str.split('\n');
+    const firstIndentChar = _getFirstIndentChar(arr);
+		let otherIndentChar;
+		if(firstIndentChar){
+			otherIndentChar = firstIndentChar === ' ' ? '\t' : ' ';
+		}
+     let curr, pChild;
+     arr =  arr.map((line, lineNum) => {
+      const indent = _getIndent(line, firstIndentChar, otherIndentChar);
+      if(indent < 0){
+        throw new Error('Indent pace and tab are mixed. Not same as first indent: ' + (firstIndentChar === ' ' ? 'space' : 'tab') + '. at line ' + lineNum + ' column ' + line.indexOf(otherIndentChar) + ' :\n' + revertLine(line, valueMap));
+      }
+      const result = {
+        lineNum,
+        indent
+      }
+      let _line = line.trim();
+      if(_line[0] === '#'){
+
+        _line = _line.substring(2);
+        result.type = 'text';
+        result.content = _line.trimStart();
+        return result;
+      } else {
+        let i = _line.indexOf(' ');
+        result.type = 'el';
+        result.tag = _line;
+        const children = [];
+        if(i === -1){
+          return result;
+        }
+        let tag = _line.substring(0, i);
+        _line = _line.substring(i);
+
+        result.tag = tag;
+
+        i = _line.lastIndexOf('#');
+        if(i !== -1){
+          const text = _line.substring(i + 2).trimStart();
+          if(text){
+            children.push({
+              type: 'text',
+              content: text,
+              inline: true
+            })
+          }
+          _line = _line.substring(0, i);
+        }
+
+        // _line = line.replaceAll(reg, (_mStr) => {
+          
+        //   let mStr = _mStr.replaceAll(/(\t| )+/g, '\n');
+        //   console.log('mstr', mStr);
+        //   return mStr;
+        // });
+
+        _line = _line.trim();
+        if(_line){
+          _line = _line.split(/[\t ]+/);
+          _line = _line.map(attr => {
+            const kv = _splitAttr(attr, valueMap);
+            if(kv.err){
+              throw new Error('DBD parse Error' + kv.msg + ' at line ' + lineNum + ':\n' + revertLine(line, valueMap));
+            }
+            return kv;
+          })
+          result.attrs = _line;
+        }
+
+        if(children.length){
+          result.children = children;
+        }
+        
+        return result;
+      }
+     });
+     return arr;
+  }
+  function _splitAttr(attr, valueMap){
+    const arr = attr.split('=');
+    const len = arr.length;
+    if(len === 1){
+      return {
+        key: arr[0],
+        value: ''
+      }
+    } else if(len === 2){
+      const key = arr[0].trimEnd();
+      if(!key){
+        return {
+          err: true,
+          msg: 'Attr not has key'
+        }
+      }
+      let v = arr[1].trimStart();
+      if(v.indexOf(valueMark) !== 0){
+        let msg = 'Attr ' + key + ': has invalid value ' + v;
+        console.log('indexOf', v.length, arr, v.indexOf("'"))
+        if(v.indexOf("'") !== -1){
+          msg = msg + '. Html elemnet attr value single quotation marks are not allowed, please use double quotation marks.'
+        }
+        return {
+          err: true,
+          msg
+        }
+      }
+      v = v.substring(valueMarkLen);
+      return {
+        key,
+        value: valueMap.get(v)
+      }
+    } else {
+      return {
+          err: true,
+          msg: 'Attr ' + arr[0] + ': has Extra equals sign.'
+        };
+    }
+    // let key = attr.substring(0, i).trimEnd();
+    // let value = attr.substring(i + 1).trimStart();
+    // if(value[0] !== '"' || value[value.length - 1] !== '"'){
+    //   throw new Error('');
+    // }
+
+  }
+  let errReg;
+  function revertLine(line, valueMap){
+    if(!errReg){
+      errReg = new RegExp(valueMark + '[\\d]+', 'g');
+    }
+    return line.replaceAll(errReg, (mstr) => {
+      const k = mstr.substring(valueMarkLen);
+      return `"${valueMap.get(k)}"`
+    })
+  }
+  function _getFirstIndentChar(arr){
+    let i = 0;
+    const len = arr.length;
+    let char;
+    for(; i < len; i++){
+      char = arr[i][0];
+        if(char === ' ' || char === '\t'){
+          return char;
+        }
+    }
+  }
+  function _getIndent(str, firstIndentChar, otherIndentChar) {
+    let i = 0;
+    const len = str.length;
+    let v;
+		
+    for(; i < len; i++){
+      v = str[i];
+      if(v !== firstIndentChar){
+				if(v === otherIndentChar){
+					return -1;
+				}
+        return i;
+      } 
+			// else {
+			// 	console.log('_getIndent==========', v, firstIndentChar)
+      //   if(v !== firstIndentChar){
+      //     return -1;
+      //   }
+      // }
+    }
+    return i;
+  }
+
+  console.log(JSON.stringify(parse(text), null , ' ') );
+})();
+
+
+</script>
+  </body>
+</html>
