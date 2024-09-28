@@ -1,1 +1,0 @@
-import{_ as e}from"./detail.vue_vue_type_style_index_0_lang-D_PK0GDo.js";import"./index-ZSwLI674.js";/* empty css              */import"./headItem-BRJ0w2uz.js";import"./index-BpQst5nk.js";export{e as default};

@@ -1,0 +1,1 @@
+import{v as s,d as e,e as a}from"./index-CioBjTVG.js";const c=(e,a)=>{const{success:c,message:r}=s(e);return c?"":r},r=(s,a)=>{const{success:c,message:r}=e(s);return c?"":r},t=(s,e)=>{const{success:c,message:r}=a(s);return c?"":r};export{r as a,t as b,c as v};
