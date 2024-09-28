@@ -1,0 +1,321 @@
+.chart-page {
+    background: #1E2126;
+}
+
+.chart-page .chart-container {
+    border: 0px solid;
+    border-color: #1E2126;
+    background:#141516;
+}
+
+.bottom-widgetbar-content.backtesting .button,
+.header-chart-panel .button,
+.hotlist-controls .button,
+.symbol-edit-widget .button {
+    display: block;
+    position: relative;
+    float: left;
+    cursor: default;
+    padding: 4px 8px;
+    border: 1px solid;
+    border-color: #1E2126;
+    height: 14px;
+    background: #1E2126;
+    background-image: initial;
+    background-position-x: initial;
+    background-position-y: initial;
+    background-size: initial;
+    background-repeat-x: initial;
+    background-repeat-y: initial;
+    background-attachment: initial;
+    background-origin: initial;
+    background-clip: initial;
+    background-color: #1E2126;
+    color: #91979E;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.bottom-widgetbar-content.backtesting .button.active,
+.ch-controls .button.active,
+.feature-no-touch .bottom-widgetbar-content.backtesting .button:active,
+.feature-no-touch .ch-controls .button:active,
+.feature-no-touch .header-chart-panel .button.active:hover,
+.feature-no-touch .header-chart-panel .button:active,
+.feature-no-touch .hotlist-controls .button:active,
+.feature-no-touch .save-load-buttons .active:hover,
+.feature-no-touch .save-load-buttons a:not(.link):active,
+.feature-no-touch .symbol-edit-widget .button:active,
+.feature-touch .bottom-widgetbar-content.backtesting .button:active,
+.feature-touch .ch-controls .button:active,
+.feature-touch .header-chart-panel .button:active,
+.feature-touch .hotlist-controls .button:active,
+.feature-touch .save-load-buttons a:not(.link):active,
+.feature-touch .symbol-edit-widget .button:active,
+.header-chart-panel .button.active,
+.header-chart-panel .button.i-active,
+.hotlist-controls .button.active,
+.save-load-buttons .active,
+.symbol-edit-widget .button.active {
+    background: #2c3b59;
+    color: #91979E;
+}
+
+.feature-no-touch .favored-list-container span:hover {
+    background: #1E2126;
+    color: #91979E;
+}
+
+.favored-list-container.active span.submenu,
+.favored-list-container span.submenu.active {
+    background: #1E2126;
+    color: #91979E;
+}
+
+.charts-popup-list {
+    /* display: none; */
+    /* overflow: auto; */
+    right: 7px;
+    top: 46px;
+    position: absolute;
+    border: 1px solid;
+    background: #1E2126;
+    color: #91979E;
+    border-color: #91979E;
+    z-index: 110;
+    margin: 0;
+}
+
+.charts-popup-list .item.active,
+.feature-no-touch .charts-popup-list .item:hover {
+    background: #4e5a85;
+}
+
+.favored-list-container span {
+    display: inline-block;
+    position: relative;
+    height: 14px;
+    vertical-align: top;
+    color: #91979E;
+    font-size: 11px;
+    font-weight: 700;
+    background: #1E2126;
+    /*border: 1px solid;*/
+    border-color: #1E2126;
+    /*border-width: 1px 1px 1px 0;*/
+    /*padding: 7px 12px;*/
+    cursor: default;
+}
+
+.tv-close-panel {
+    width: 5px;
+    height: 25px;
+    border-color: #4e5a85;
+    border-width: 1px 0;
+    border-style: solid;
+    background-color: #4e5a85;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+}
+
+.charts-popup-list.intervals-list .item {
+    cursor: pointer;
+    padding: 7px;
+    min-width: 180px;
+    color: #91979E;
+}
+
+.button.indicators svg {
+    fill: #91979E;
+}
+
+.button.fullscreen svg {
+    fill: #91979E;
+}
+
+.feature-no-touch .chart-style-widget span:hover svg {
+    fill: #91979E;
+}
+
+.chart-style-widget svg {
+    fill: #91979E;
+}
+
+.charts-popup-list .item span {
+    color: #91979E;
+    fill: currentColor;
+    display: inline-block;
+}
+
+.chart-style-popup .item svg {
+    fill: #91979E;
+    color: #91979E;
+}
+
+.chart-page .tv-side-toolbar .group .button svg,
+.chart-page .header-chart-panel .group .button svg {
+    fill: #91979E;
+    width: 14px;
+    height: 14px;
+}
+
+.header-group-fullscreen {
+    float: none !important;
+}
+
+.chart-page .tv-side-toolbar .group,
+.chart-page .header-chart-panel .group {
+    float: left;
+}
+
+.chart-page .tv-side-toolbar .header-group-properties,
+.chart-page .tv-side-toolbar .header-group-indicators,
+.chart-page .header-chart-panel .header-group-properties,
+.chart-page .header-chart-panel .header-group-indicators {
+    float: none;
+}
+
+.pane-legend-item-value-wrap .pane-legend-item-value-title__main,
+.pane-legend-item-value-wrap .pane-legend-item-value__main {
+    font-size: 12px;
+}
+
+.header-chart-panel .group {
+    margin: 0;
+}
+
+.header-chart-panel .header-chart-panel-sizer {
+    margin-top: 0px;
+}
+
+.pane-legend-line.pane-legend-wrap.main {
+    padding-top: 0;
+    margin-top: 0px;
+}
+
+.feature-no-touch .header-chart-panel .button:hover:not(.disabled),
+.feature-no-touch .symbol-edit-widget .button:hover:not(.disabled) {
+    border: 1px solid transparent;
+    cursor: pointer;
+}
+
+.chart-page .tv-side-toolbar .group .button:hover:not(.disabled) svg,
+.chart-page .header-chart-panel .group .button:hover:not(.disabled) svg {
+    fill: #596794;
+}
+
+.feature-no-touch ._tv-dialog .button:not(.disabled):not(.selected):hover:before,
+.feature-no-touch ._tv-dialog .custom-select .switcher:not(.disabled):not(.selected):hover:before,
+.feature-no-touch ._tv-dialog .favored-list-container span:not(.disabled):not(.selected):hover:before,
+.feature-no-touch ._tv-dialog .submenu:not(.disabled):not(.selected):hover:before,
+.feature-no-touch .bottom-widgetbar-content.backtesting .button:not(.disabled):not(.selected):hover:before,
+.feature-no-touch .bottom-widgetbar-content.backtesting .custom-select .switcher:not(.disabled):not(.selected):hover:before,
+.feature-no-touch .bottom-widgetbar-content.backtesting .favored-list-container span:not(.disabled):not(.selected):hover:before,
+.feature-no-touch .bottom-widgetbar-content.backtesting .submenu:not(.disabled):not(.selected):hover:before,
+.feature-no-touch .header-chart-panel .button:not(.disabled):not(.selected):hover:before,
+.feature-no-touch .header-chart-panel .custom-select .switcher:not(.disabled):not(.selected):hover:before,
+.feature-no-touch .header-chart-panel .favored-list-container span:not(.disabled):not(.selected):hover:before,
+.feature-no-touch .header-chart-panel .submenu:not(.disabled):not(.selected):hover:before,
+.feature-no-touch .properties-toolbar .button:not(.disabled):not(.selected):hover:before,
+.feature-no-touch .properties-toolbar .custom-select .switcher:not(.disabled):not(.selected):hover:before,
+.feature-no-touch .properties-toolbar .favored-list-container span:not(.disabled):not(.selected):hover:before,
+.feature-no-touch .properties-toolbar .submenu:not(.disabled):not(.selected):hover:before,
+.feature-no-touch .widgetbar-widgetheader .button:not(.disabled):not(.selected):hover:before,
+.feature-no-touch .widgetbar-widgetheader .custom-select .switcher:not(.disabled):not(.selected):hover:before,
+.feature-no-touch .widgetbar-widgetheader .favored-list-container span:not(.disabled):not(.selected):hover:before,
+.feature-no-touch .widgetbar-widgetheader .submenu:not(.disabled):not(.selected):hover:before {
+    border: 1px solid transparent;
+}
+
+.pane-legend {
+    padding: 5px 10px 5px 48px;
+}
+
+.toggleButton-2o6YKJ1g- {
+    fill: #596794;
+}
+.drawingToolbar-2CoOuCv8- {
+    -ms-overflow-style:none;
+    overflow:-moz-scrollbars-none;
+    fill: #596794;
+}
+.drawingToolbar-2CoOuCv8- {
+    background-color: #1E2126;
+}
+.layout__area--left {
+    display: block !important;
+}
+
+.chart-page .tv-side-toolbar .tools-group .button {
+    background-color: #243445;
+    border-color: #243445;
+}
+
+.chart-page .tv-side-toolbar .tools-group .button .main.text-as-icon {
+    color: #91979E;
+}
+
+.chart-page .tv-side-toolbar .tools-group .button svg {
+    fill: #91979E;
+}
+
+.chart-page .tv-side-toolbar .tools-group .button.selected,
+.chart-page .tv-side-toolbar .tools-group .button:hover,
+.chart-page .tv-side-toolbar .tools-group .button:active {
+    background-color: #2c3b59;
+    border-color: #2c3b59;
+}
+
+.chart-page .tv-side-toolbar .tools-group .button.selected svg,
+.chart-page .tv-side-toolbar .tools-group .button:hover svg,
+.chart-page .tv-side-toolbar .tools-group .button:active svg {
+    fill: #c7cce6;
+}
+
+.chart-page .tv-side-toolbar .tools-group .button.selected .main.text-as-icon,
+.chart-page .tv-side-toolbar .tools-group .button:hover .main.text-as-icon,
+.chart-page .tv-side-toolbar .tools-group .button:active .main.text-as-icon {
+    color: #c7cce6;
+}
+
+.chart-page .tv-side-toolbar .tools-group .button.selected .side,
+.chart-page .tv-side-toolbar .tools-group .button:hover .side,
+.chart-page .tv-side-toolbar .tools-group .button:active .side {
+    border-left: 1px solid transparent;
+}
+
+.chart-page .tv-side-toolbar .tools-group .button:active svg {
+    fill: #91979E;
+}
+.scrollBot-1mx_BeXt-, .scrollTop-2G6k9HF0-{
+    color: #758695;
+}
+.separator-3cgsM4c1-{
+    background: #758695;
+}
+.layout__area--left.js-hidden{
+    z-index: 3;
+    height: 100% !important; 
+    width: auto !important;
+}
+.scrollWrap-2Regigv6-.noScrollBar-a2JtQ0sE-{
+    padding-right: 0;
+    scrollbar-width: none;
+}
+.chatFullscreen{
+    display: flex !important;
+    align-items: center;
+}
+.layout__area--left.js-hidden{
+    top:32px !important;
+}
+@media only screen and (max-width:740px){
+    .header-chart-panel .button{
+        padding: 7px 8px !important;
+    }
+}
+@media only screen and (max-width:610px){
+    .header-chart-panel .button{
+        padding: 7px 5px !important;
+    }
+}

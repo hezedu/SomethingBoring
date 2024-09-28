@@ -1,0 +1,1 @@
+import{_ as a}from"./headItem-BRJ0w2uz.js";import{E as s}from"./emptyPage-DPXgX7yJ.js";import{o as t,c as e,a as m,b as o}from"./index-ZSwLI674.js";const p={class:"mainApp"},r={__name:"template",setup:r=>(r,i)=>{const n=a;return t(),e("div",null,[m(n,{headTt:"模板"}),o("div",p,[m(s)])])}};export{r as default};

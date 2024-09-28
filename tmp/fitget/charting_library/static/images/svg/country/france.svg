@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>0country/country_france_33</title>
+    <defs>
+        <path d="M24,12 C24,18.62736 18.62736,24 12,24 C5.37252,24 0,18.62736 0,12 C0,5.37252 5.37252,0 12,0 C18.62736,0 24,5.37252 24,12 L24,12 Z" id="path-1"></path>
+    </defs>
+    <g id="0资源库" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="国旗" transform="translate(-220.000000, -20.000000)">
+            <g id="法国" transform="translate(220.000000, 20.000000)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <g id="Clip-992"></g>
+                <polygon id="Fill-991" fill="#D82333" mask="url(#mask-2)" points="16.5 24 24 24 24 0 16.5 0"></polygon>
+                <polygon id="Fill-993" fill="#FFFFFE" mask="url(#mask-2)" points="7.5 24 16.5 24 16.5 0 7.5 0"></polygon>
+                <polygon id="Fill-994" fill="#203F80" mask="url(#mask-2)" points="0 24 7.5 24 7.5 0 0 0"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

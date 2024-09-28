@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>切片</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="首页-未登录" transform="translate(-1240.000000, -33.000000)">
+            <g id="0icon/32/icon_download" transform="translate(1240.000000, 33.000000)">
+                <g transform="translate(5.000000, 5.000000)">
+                    <path d="M22,14 L22,21 C22,21.5522847 21.5522847,22 21,22 L1,22 C0.44771525,22 6.76353751e-17,21.5522847 0,21 L0,14 L0,14" id="路径" stroke="#91979E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <g id="编组" transform="translate(6.000000, 0.000000)">
+                        <line x1="5" y1="0" x2="5" y2="14.1666667" id="路径-21" stroke="#91979E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></line>
+                        <path d="M5.29993514,11.6732598 L9.4135453,16.3353513 C9.55970672,16.501001 9.54390842,16.7537737 9.37825882,16.8999351 C9.30517897,16.9644174 9.21107103,17 9.11361016,17 L0.886389838,17 C0.665475938,17 0.486389838,16.8209139 0.486389838,16.6 C0.486389838,16.5025391 0.521972474,16.4084312 0.586454695,16.3353513 L4.70006486,11.6732598 C4.84622627,11.5076102 5.09899905,11.4918119 5.26464865,11.6379733 C5.27713377,11.6489896 5.28891886,11.6607747 5.29993514,11.6732598 Z" id="三角形" fill="#91979E" transform="translate(5.000000, 14.166667) scale(1, -1) translate(-5.000000, -14.166667) "></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

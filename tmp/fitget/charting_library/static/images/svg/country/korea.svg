@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>0country/country_korea_82</title>
+    <defs>
+        <path d="M24,12 C24,18.6276 18.6276,24 12,24 C5.3724,24 0,18.6276 0,12 C0,5.3724 5.3724,0 12,0 C18.6276,0 24,5.3724 24,12 L24,12 Z" id="path-1"></path>
+    </defs>
+    <g id="0资源库" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="国旗" transform="translate(-28.000000, -84.000000)">
+            <g id="韩国" transform="translate(28.000000, 84.000000)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <g id="Clip-667"></g>
+                <polygon id="Fill-666" fill="#FFFFFE" mask="url(#mask-2)" points="0 24 24 24 24 0 0 0"></polygon>
+                <polyline id="Fill-668" fill="#000403" mask="url(#mask-2)" points="17.5476 18.102 18.102 18.4716 19.1184 16.9464 18.564 16.5768 17.5476 18.102"></polyline>
+                <polyline id="Fill-669" fill="#000403" mask="url(#mask-2)" points="16.7148 17.5464 17.2692 17.9172 18.2868 16.3908 17.7324 16.0212 16.7148 17.5464"></polyline>
+                <polyline id="Fill-670" fill="#000403" mask="url(#mask-2)" points="15.8832 16.992 16.4376 17.3616 17.4552 15.8364 16.8996 15.4668 15.8832 16.992"></polyline>
+                <polyline id="Fill-671" fill="#000403" mask="url(#mask-2)" points="19.7652 14.7732 18.7488 16.2984 19.3032 16.6692 20.3208 15.1428 19.7652 14.7732"></polyline>
+                <polyline id="Fill-672" fill="#000403" mask="url(#mask-2)" points="17.9172 15.744 18.4716 16.1136 19.488 14.5884 18.9336 14.2188 17.9172 15.744"></polyline>
+                <polyline id="Fill-673" fill="#000403" mask="url(#mask-2)" points="17.0844 15.1896 17.64 15.5592 18.6564 14.034 18.102 13.6644 17.0844 15.1896"></polyline>
+                <polyline id="Fill-674" fill="#000403" mask="url(#mask-2)" points="5.3436 14.034 7.5624 17.3616 8.1168 16.992 5.898 13.6644 5.3436 14.034"></polyline>
+                <polyline id="Fill-675" fill="#000403" mask="url(#mask-2)" points="6.7308 17.9172 7.2852 17.5464 6.2676 16.0212 5.7132 16.3908 6.7308 17.9172"></polyline>
+                <polyline id="Fill-676" fill="#000403" mask="url(#mask-2)" points="5.5284 16.1136 6.0828 15.744 5.0664 14.2188 4.512 14.5884 5.5284 16.1136"></polyline>
+                <polyline id="Fill-677" fill="#000403" mask="url(#mask-2)" points="5.898 18.4716 6.4536 18.102 4.2348 14.7732 3.6792 15.1428 5.898 18.4716"></polyline>
+                <polyline id="Fill-678" fill="#000403" mask="url(#mask-2)" points="19.7652 9.2268 20.3208 8.8572 19.3032 7.3308 18.7488 7.7016 19.7652 9.2268"></polyline>
+                <polyline id="Fill-679" fill="#000403" mask="url(#mask-2)" points="17.5476 5.898 18.564 7.4232 19.1184 7.0536 18.102 5.5284 17.5476 5.898"></polyline>
+                <polyline id="Fill-680" fill="#000403" mask="url(#mask-2)" points="18.9336 9.7812 19.488 9.4116 17.2692 6.0828 16.7148 6.4536 18.9336 9.7812"></polyline>
+                <polyline id="Fill-681" fill="#000403" mask="url(#mask-2)" points="18.102 10.3356 18.6564 9.966 17.64 8.4408 17.0844 8.8104 18.102 10.3356"></polyline>
+                <polyline id="Fill-682" fill="#000403" mask="url(#mask-2)" points="16.8996 8.5332 17.4552 8.1636 16.4376 6.6384 15.8832 7.008 16.8996 8.5332"></polyline>
+                <polyline id="Fill-683" fill="#000403" mask="url(#mask-2)" points="7.5624 6.6384 5.3436 9.966 5.898 10.3356 8.1168 7.008 7.5624 6.6384"></polyline>
+                <polyline id="Fill-684" fill="#000403" mask="url(#mask-2)" points="4.512 9.4116 5.0664 9.7812 7.2852 6.4536 6.7308 6.0828 4.512 9.4116"></polyline>
+                <polyline id="Fill-685" fill="#000403" mask="url(#mask-2)" points="3.6792 8.8572 4.2348 9.2268 6.4536 5.898 5.898 5.5284 3.6792 8.8572"></polyline>
+                <path d="M8.6712,9.7812 C7.446,11.6196 7.9428,14.1024 9.7812,15.3288 C11.6196,16.554 14.1024,16.0572 15.3288,14.2188 C15.9408,13.2996 15.6924,12.0576 14.7732,11.4456 C13.854,10.8324 12.6132,11.0808 12,12 C11.3868,12.9192 10.146,13.1676 9.2268,12.5544 C8.3076,11.9424 8.0592,10.7004 8.6712,9.7812" id="Fill-686" fill="#21416E" mask="url(#mask-2)"></path>
+                <path d="M8.6712,9.7812 C8.0592,10.7004 8.3076,11.9424 9.2268,12.5544 C10.146,13.1676 11.3868,12.9192 12,12 C12.6132,11.0808 13.854,10.8324 14.7732,11.4456 C15.6924,12.0576 15.9408,13.2996 15.3288,14.2188 C16.554,12.3804 16.0572,9.8976 14.2188,8.6712 C12.3804,7.446 9.8976,7.9428 8.6712,9.7812" id="Fill-687" fill="#C1233D" mask="url(#mask-2)"></path>
+            </g>
+        </g>
+    </g>
+</svg>
