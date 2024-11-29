@@ -9,12 +9,8 @@
     <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="afk.js"></script>
     <script>
-      let now = 0;
-      const ae = new AfterExec(1500, () => {
-        let _now = Date.now();
-        console.log('test', _now - now);
-        now = _now;
-        
+      const ae = new AfterExec(200, () => {
+        console.log('test', performance.now() - ae.lastActiveTime);
       }, true);
 
       document.addEventListener('mousemove', (e) => {

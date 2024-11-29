@@ -10,8 +10,8 @@ function AfterExec(interval, callback, isLoop){
   this.trigger = this._start;
 }
 
-AfterExec.prototype._start = function(){
-  this.startTime = this.lastActiveTime = 0;
+AfterExec.prototype._start = function(timeStamp){
+  this.startTime = this.lastActiveTime = timeStamp;
   this.trigger = this._trigger;
   console.log('_start');
   this.process();
