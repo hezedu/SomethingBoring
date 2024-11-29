@@ -9,8 +9,17 @@
     <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="afk.js"></script>
     <script>
-      document.addEventListener('mousedown', (e) => {
-        console.log('e', performance.now(), 'timeStamp: ', e.timeStamp, performance.now());
+      let now = 0;
+      const ae = new AfterExec(1500, () => {
+        let _now = Date.now();
+        console.log('test', _now - now);
+        now = _now;
+        
+      }, true);
+
+      document.addEventListener('mousemove', (e) => {
+        ae.trigger(e.timeStamp);
+        // console.log('e', performance.now(), 'timeStamp: ', e.timeStamp, performance.now());
       })
 
 

@@ -7,11 +7,17 @@ function AfterExec(interval, callback, isLoop){
   this.task = callback;
   this.isLoop = isLoop;
   this._timer = null;
+  this.trigger = this._start;
+}
+
+AfterExec.prototype._start = function(){
+  this.startTime = this.lastActiveTime = 0;
+  this.trigger = this._trigger;
+  console.log('_start');
   this.process();
 }
 
-
-AfterExec.prototype.trigger = function(timeStamp){
+AfterExec.prototype._trigger = function(timeStamp){
   this.lastActiveTime = timeStamp;
 }
 
@@ -21,6 +27,7 @@ AfterExec.prototype.process = function(){
   if(this.startTime < this.lastActiveTime){
     this.startTime = performance.now();
     interval = interval - Math.floor(this.startTime - this.lastActiveTime);
+    console.log('interval_1', interval)
   } else {
     interval = this.interval;
   }
@@ -28,15 +35,13 @@ AfterExec.prototype.process = function(){
     console.log('interval <= 0', interval);
     interval = 0;
   }
-  console.log('process', interval)
   this._timer = setTimeout(() => {
     if(this.startTime < this.lastActiveTime){
       this.process();
     } else {
       this.task();
       if(this.isLoop){
-        this.startTime = this.lastActiveTime = 0;
-        this.process();
+        this.trigger = this._start;
       } else {
         this._timer = null;
       }
