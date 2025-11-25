@@ -18,8 +18,7 @@
   "editor.wordWrap":"on",
   "files.watcherExclude": {
     "**/.git/**": true,
-    "**/node_modules/**": true,
-    "files.defaultLanguage": "js"
+    "**/node_modules/**": true
   },
   "editor.quickSuggestions": {
     "comments": "on",
@@ -28,5 +27,10 @@
   },
   "javascript.suggest.autoImports": false,
   "editor.wordBasedSuggestions": "off",
-  "editor.snippetSuggestions": "none"
+  "editor.snippetSuggestions": "none",
+  "update.mode": "manual",
+  "workbench.commandPalette.showAskInChat": false,
+  "chat.agent.enabled": false,
+  "chat.disableAIFeatures": true
+  
 }
