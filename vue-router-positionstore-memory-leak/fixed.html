@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>[Fixed]vue-router positionStore memory leak</title>
+    <style>
+      html, body{
+        margin: 0;
+        padding: 0;
+      }
+      body{
+        padding: 10px;
+      }
+      button{
+        font-size: 20px;
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+  <div id="app">Loading...</div>
+  
+  
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.js"></script> -->
+  <script src="./vue-router@3.5.1_m_1793.js"></script>
+    <script>
+    function genPage(isBack){
+      
+      return {
+        template: `<div>
+          <h1>[Fixed]: <a href="./index.html">vue-router positionStore memory leak</a></h1>
+          <p>Click the push multiple times, then click back, and then click push.<br>
+            
+          </p>
+          <button @click="push">push</button>
+          <button @click="back">Back</button>
+          
+          <hr />
+
+          <div style="background: #eee; padding: 10px">
+            <h2>PositionStore</h2>
+            
+            <ol>
+              <li v-for="(v, k) in map">
+                <b>{{k}}: {{v}}</b>
+              </li>
+              </ol>
+
+          </div>
+
+          <small>Modified vue-router.js(3.5.1): Expose positionStore as window.vueRouterPositionStore.
+             </small>
+        </div>`,
+        data() {
+          return {
+            isBack,
+            map: window.vueRouterPositionStore
+          }
+        },
+        watch: {
+          $route(){
+            const obj = {};
+            Object.assign(obj, window.vueRouterPositionStore);
+            this.map = obj;
+          }
+        },
+        methods: {
+          back(){
+            this.$router.back();
+          },
+          push(){
+            this.$router.push('/t' + Date.now());
+          }
+        }
+      }
+    }
+
+
+    const Root = {
+      template: '<router-view />'
+    }
+
+    const router = new window.VueRouter({
+      routes: [
+        { path: '/', component: genPage(false) },
+        { path: '/:id', component: genPage(true) },
+      ]
+    });
+    
+    const app = new window.Vue({
+      router: router,
+      render: h => h(Root)
+    });
+
+    router.onReady(() => {
+      app.$mount('#app');
+    })
+    </script>
+</body>
+</html>
