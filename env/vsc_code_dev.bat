@@ -1,0 +1,1 @@
+runas /user:dev /savecred "C:\Program Files\Microsoft VS Code\Code.exe"

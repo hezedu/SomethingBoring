@@ -31,6 +31,7 @@
   "update.mode": "manual",
   "workbench.commandPalette.showAskInChat": false,
   "chat.agent.enabled": false,
-  "chat.disableAIFeatures": true
+  "chat.disableAIFeatures": true,
+  "terminal.integrated.defaultProfile.windows": "Command Prompt"
   
 }
