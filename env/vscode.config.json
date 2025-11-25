@@ -1,0 +1,32 @@
+{
+  "files.autoSave": "off",
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": true,
+  "editor.fontSize": 20,
+  "git.enabled": false,
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/.DS_Store": true,
+    "**/node_modules": true
+  },
+  "files.eol": "\n",
+  "editor.renderControlCharacters": true,
+  "editor.renderWhitespace": "none",
+  "editor.wordWrap":"on",
+  "files.watcherExclude": {
+    "**/.git/**": true,
+    "**/node_modules/**": true,
+    "files.defaultLanguage": "js"
+  },
+  "editor.quickSuggestions": {
+    "comments": "on",
+    "strings": "on",
+    "other": "on"
+  },
+  "javascript.suggest.autoImports": false,
+  "editor.wordBasedSuggestions": "off",
+  "editor.snippetSuggestions": "none"
+}
