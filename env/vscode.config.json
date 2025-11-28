@@ -32,6 +32,7 @@
   "workbench.commandPalette.showAskInChat": false,
   "chat.agent.enabled": false,
   "chat.disableAIFeatures": true,
-  "terminal.integrated.defaultProfile.windows": "Command Prompt"
+  "terminal.integrated.defaultProfile.windows": "Command Prompt",
+  "editor.stickyScroll.enabled": false
   
 }
